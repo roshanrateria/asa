@@ -1,0 +1,21 @@
+# secrets - never commit
+.env
+
+# raw run receipts (sanitized, committed evidence goes in atlas/ instead)
+runs/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# node (only needed for the local MCP stdio server)
+node_modules/
+
+# MCP remote OAuth cache
+.mcp-auth/
+
+# OS
+.DS_Store
+Thumbs.db
