@@ -1,0 +1,51 @@
+{
+ "counts": {
+  "total_cells": 2,
+  "scheduled_rest": 2,
+  "executed_rest": 2,
+  "scheduled_mcp": 0,
+  "executed_mcp": 0,
+  "not_scheduled": {},
+  "verdicts": {
+   "PASS": 1,
+   "OBSERVE": 1
+  }
+ },
+ "rows": [
+  {
+   "cell_id": 16,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 17,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=False ids=['EXTR-8TK352932R479503S', 'EXTR-0Y0795261X108163U'] sent=['ca53b012', 'ca53b012'] echoed=[None, None]"
+   ]
+  }
+ ]
+}

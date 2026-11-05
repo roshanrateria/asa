@@ -22,6 +22,7 @@ Secrets must never reach this module: call sites pass redacted summaries only
 from __future__ import annotations
 
 import json
+import re
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -80,18 +81,31 @@ class Recorder:
         return f"{self.path} ({self.seq} receipts)"
 
 
-def extract_ids(body: dict) -> list[str]:
-    """Pull sandbox object ids out of a response body (best effort)."""
-    if not isinstance(body, dict):
-        return []
-    ids = []
-    for key in ("id", "order_id", "capture_id", "refund_id", "invoice_id",
-                "transaction_id", "token", "links"):
-        if key == "links":
-            continue
-        val = body.get(key)
-        if isinstance(val, str) and val:
-            ids.append(val)
+def extract_ids(body) -> list[str]:
+    """Pull sandbox object ids out of a response body (best effort).
+
+    pass1b fixes (receipt-forensics 2026-11-06):
+      * v2 invoicing create answers a LINK object ({"rel","href"}) - the id
+        lives inside the href;
+      * record_payment answers "payment_id";
+      * ids already embedded in tool-call text match the INV2-/EXTR- patterns.
+    """
+    ids: list[str] = []
+    pat = re.compile(r"(?:INV2|EXTR|PAYID)-[A-Za-z0-9\-]+")
+    try:
+        text = json.dumps(body, default=str)
+    except Exception:
+        text = repr(body)
+    for found in pat.findall(text):
+        if found not in ids:
+            ids.append(found)
+    if isinstance(body, dict):
+        for key in ("id", "payment_id", "refund_id", "external_refund_id",
+                    "order_id", "capture_id", "invoice_id", "transaction_id",
+                    "token"):
+            val = body.get(key)
+            if isinstance(val, str) and val and val not in ids:
+                ids.append(val)
     return ids
 
 

@@ -36,7 +36,7 @@ target: Devpost submitted by **Thu 12 Nov ~10:00 IST** (≈ 7 h buffer).
 | Day | Work | Gate |
 |---|---|---|
 | Fri 6 | scaffold + spikes 0-3 (+ spike4 if node exists) | G-SPIKE: money path or invoice-only slice |
-| Sat 7 | harness pass 1 over the matrix (pruned cells, receipts) | coverage baseline |
+| Sat 7 | harness pass 1 over the matrix (pruned cells, receipts) | coverage baseline **DONE**: pass1 (39+12 executed, verdict plumbing bugs found in its own receipts), pass1b (extractor fixed), pass1c = citable pass 37/39 REST + 12/12 MCP, PASS 25 / DRIFT 7 / OBSERVE 19; cells 16/17 transient network resets re-executed in pass1c-fx; SF-9/SF-10 surfaced; atlas/coverage_pass1{b,c,c-fx}*
 | Sun 8 | pass 1.1 fixes; doc-vs-sandbox deltas table (the atlas) | atlas v0 |
 | Mon 9 | state model + BFS depth<=6; first counterexample | G-FINDING: >=1 replayable finding, or fallback |
 | Tue 10 | LLM policy compile + repair loop + replay + HTML report | **feature freeze** (moved up = slip cushion) |

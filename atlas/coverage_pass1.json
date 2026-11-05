@@ -1,0 +1,1774 @@
+{
+ "counts": {
+  "total_cells": 108,
+  "scheduled_rest": 39,
+  "executed_rest": 39,
+  "scheduled_mcp": 12,
+  "executed_mcp": 12,
+  "not_scheduled": {
+   "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+   "echo-refund: refund body has no text field on REST": 3,
+   "mcp-shape-merge: one aggregate retry per cluster": 24,
+   "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 72
+  },
+  "verdicts": {
+   "PASS": 27,
+   "DRIFT": 9,
+   "OBSERVE": 15
+  }
+ },
+ "rows": [
+  {
+   "cell_id": 1,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-S96H-VZUD-N8QL-LZR3'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 2,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "same-header pair ids collapsed [201, 201]"
+   ]
+  },
+  {
+   "cell_id": 3,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "no-header pair ids NOT duplicated [201, 201]"
+   ]
+  },
+  {
+   "cell_id": 4,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-4C7P-88CZ-RGYV-UYDE'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 5,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "same-header pair ids collapsed [201, 201]"
+   ]
+  },
+  {
+   "cell_id": 6,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "no-header pair ids NOT duplicated [201, 201]"
+   ]
+  },
+  {
+   "cell_id": 7,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-6XQG-HESM-BAB8-973G'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 8,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "same-header pair ids collapsed [201, 201]"
+   ]
+  },
+  {
+   "cell_id": 9,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "no-header pair ids NOT duplicated [201, 201]"
+   ]
+  },
+  {
+   "cell_id": 10,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 11,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=True ids=[]"
+   ]
+  },
+  {
+   "cell_id": 12,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment no-header [200, 200] two_money_effects=False ids=[]"
+   ]
+  },
+  {
+   "cell_id": 13,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 14,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=True ids=[]"
+   ]
+  },
+  {
+   "cell_id": 15,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment no-header [200, 200] two_money_effects=False ids=[]"
+   ]
+  },
+  {
+   "cell_id": 16,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 17,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=True ids=[]"
+   ]
+  },
+  {
+   "cell_id": 18,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment no-header [200, 200] two_money_effects=False ids=[]"
+   ]
+  },
+  {
+   "cell_id": 19,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "refund fresh [422]"
+   ]
+  },
+  {
+   "cell_id": 20,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund same-header [422, 422] ids_equal=True ids=[]"
+   ]
+  },
+  {
+   "cell_id": 21,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund no-header [422, 422] distinct_refund_ids=0 ids=[]"
+   ]
+  },
+  {
+   "cell_id": 22,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "refund fresh [422]"
+   ]
+  },
+  {
+   "cell_id": 23,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund same-header [422, 422] ids_equal=True ids=[]"
+   ]
+  },
+  {
+   "cell_id": 24,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund no-header [422, 422] distinct_refund_ids=0 ids=[]"
+   ]
+  },
+  {
+   "cell_id": 25,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 26,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund same-header [200, 200] ids_equal=False ids=['EXTR-6B803622YU072163F', 'EXTR-6SD80078VN371654K']"
+   ]
+  },
+  {
+   "cell_id": 27,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund no-header [200, 200] distinct_refund_ids=2 ids=['EXTR-9SU26974VA9025808', 'EXTR-0KH53782H6119754R']"
+   ]
+  },
+  {
+   "cell_id": 28,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-GMDV-7ATK-GFG5-EG32'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 29,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 30,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 31,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-5UT6-9PQR-62R3-DEFV'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 32,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 33,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 34,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-A394-F8L4-YQQ7-354S'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 35,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 36,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 37,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "pay on DRAFT money=[200] (allowed-by-design)"
+   ]
+  },
+  {
+   "cell_id": 38,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 39,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 40,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "pay on AUTHORIZED_UNCAPTURED money=[200] (allowed-by-design)"
+   ]
+  },
+  {
+   "cell_id": 41,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 42,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 43,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "pay over remaining amount [422] issue=PAYMENT_AMOUNT_GREATER_THAN_AMOUNT_DUE"
+   ]
+  },
+  {
+   "cell_id": 44,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 45,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 46,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund on unpaid DRAFT invoice [422] issue=CANNOT_PROCESS_REFUNDS"
+   ]
+  },
+  {
+   "cell_id": 47,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 48,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 49,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund on unpaid AUTHORIZED_UNCAPTURED invoice [422] issue=CANNOT_PROCESS_REFUNDS"
+   ]
+  },
+  {
+   "cell_id": 50,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 51,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 52,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund within paid [200]"
+   ]
+  },
+  {
+   "cell_id": 53,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 54,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 55,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-G6DX-UWH8-4U3A-PY96'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 56,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 57,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 58,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-ZMUY-K68A-RGUN-M32A'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 59,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 60,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 61,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-786U-EJE6-9YY4-ZPWM'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 62,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 63,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 64,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 65,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 66,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 67,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 68,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 69,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 70,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 71,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 72,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 73,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile 422-422-422"
+   ]
+  },
+  {
+   "cell_id": 74,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 75,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 76,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile 422-422-422"
+   ]
+  },
+  {
+   "cell_id": 77,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 78,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 79,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-422"
+   ]
+  },
+  {
+   "cell_id": 80,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 81,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 82,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "mcp create ids=[] ok=True"
+   ]
+  },
+  {
+   "cell_id": 83,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 84,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 85,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "mcp create ids=['INV2-88KQ-SJ2N-WVZD-3Z74'] ok=True echo=reflected-verbatim"
+   ]
+  },
+  {
+   "cell_id": 86,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 87,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 88,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "mcp create ids=[] ok=True"
+   ]
+  },
+  {
+   "cell_id": 89,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 90,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 91,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "echo-in-payment-note [200]"
+   ]
+  },
+  {
+   "cell_id": 92,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 93,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 94,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    406
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "echo-in-payment-note [406]"
+   ]
+  },
+  {
+   "cell_id": 95,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 96,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 97,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "echo-in-payment-note [200]"
+   ]
+  },
+  {
+   "cell_id": 98,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 99,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 100,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "echo-refund: refund body has no text field on REST"
+   ]
+  },
+  {
+   "cell_id": 101,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 102,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 103,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "echo-refund: refund body has no text field on REST"
+   ]
+  },
+  {
+   "cell_id": 104,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 105,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 106,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "echo-refund: refund body has no text field on REST"
+   ]
+  },
+  {
+   "cell_id": 107,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  },
+  {
+   "cell_id": 108,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)"
+   ]
+  }
+ ]
+}
