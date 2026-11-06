@@ -24,11 +24,9 @@ target: Devpost submitted by **Thu 12 Nov ~10:00 IST** (≈ 7 h buffer).
 4. DONE 2026-11-06 - India-recipient block confirmed recipient-side (SF-3);
    sends verified to an RFC-2606 placeholder address. Optional: a US-country
    Personal sandbox account would resume the realistic send lifecycle.
-5. **Check the employer contract** for outside-work/IP clauses - the rules require
-   sole ownership. GO/NO-GO gate for submission.
-6. Join the hackathon on Devpost and create the draft submission now (points form
+5. Join the hackathon on Devpost and create the draft submission now (points form
    fields out early; the Nov-5 early-review offer has passed).
-7. Ask organisers via the community channel: do sandbox MCP-behaviour findings
+6. Ask organisers via the community channel: do sandbox MCP-behaviour findings
    count for "Best Use of PayPal + AI"? (report F-question 2).
 
 ## Gate schedule (IST), slip-adjusted from E7
