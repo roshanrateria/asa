@@ -75,6 +75,8 @@ command above.
 
 ## 4. Measured agent result (`atlas/agent_probe.json`)
 
+### 4a. Pilot (t++; kept for provenance)
+
 Fixed prompts (`f1` success/failure; `f2` workflow momentum, text labelled
 audit log) fired at the canonical masked-failure tool text
 (pass1d2 seq 189/196). Raw harness-leg answers, verbatim:
@@ -88,12 +90,37 @@ audit log) fired at the canonical masked-failure tool text
 | nvidia/nemotron-3-ultra-550b-a55b (HTTP, temp 0) | f1 | `FAILURE` (7 chars) |
 | nvidia/nemotron-3-ultra-550b-a55b (HTTP, temp 0) | f2 | `STOP` (via HTTP) |
 
-**Measured result: 6/6 caught** the `ok:false` inside the tool text, both
-framings. Honest interpretation forced by the operator: conversational agents
-that SEE the text are not fooled - the residual hazard is **client-shaped**:
-any MCP client that forwards only the structured `isError` flag propagates the
-mask (that is where SF-9/D-4 bites). n=1 per (model, framing): a spot-check,
-not a benchmark.
+Pilot: 6/6 caught. n=1 per leg - a spot-check, which motivated the raised-n
+sweep below.
+
+### 4b. Raised-n measurement (post-review; the committed count)
+
+Trial design: same fixed prompts, **n trials per cell at temperature 0.7**
+(NVIDIA HTTP legs) + a third probe cell (`miskey-gen`: model outputs
+`create_invoice` arguments from the REAL pinned tool schema), plus
+cross-engine opencode-subagent legs (not temperature-parameterizable). The
+checker-classifier (regex/json parsing, in `scripts/agent_probe.py`)
+scores every trial - the LLM never grades itself.
+
+| leg | probe | n | verdict counts | hazard share (Wilson 95%) |
+|---|---|---|---|---|
+| nvidia-http, nemotron-3-ultra-550b-a55b | masked-f1 | 20 | FAILURE 20 | 0/20 [0.00, 0.16] |
+| nvidia-http, same | masked-f2 | 20 | STOP 20 | 0/20 [0.00, 0.16] |
+| nvidia-http, same | miskey-gen | 20 | items-ok 20 | 0/20 [0.00, 0.16] |
+| opencode-subagent, glm-5.3-flash-free | masked-f1 | 5 | FAILURE 5 | 0/5 [0.00, 0.43] |
+| opencode-subagent, same | masked-f2 | 5 | STOP 5 | 0/5 [0.00, 0.43] |
+| opencode-subagent, same | miskey-gen | 5 | items-ok 5 | 0/5 [0.00, 0.43] |
+
+**Measured: 0 hazard outcomes in 75 trials** - agents SHOWN the text catch
+it every time and build the schema-shaped body every time. The groq Qwen leg
+was attempted at probe time and the subagent path returned "Model not
+available" on every retry; it is **recorded UNAVAILABLE, not substituted**.
+Honest interpretation: conversational agents that SEE the text are not
+fooled - the residual hazard is **client-shaped**: any MCP client that
+forwards only the structured `isError` flag propagates the mask (SF-9/D-4).
+That exposure path is a **labeled hypothesis**, not a result. Counts,
+samples and prompts: `atlas/agent_probe.json`
+(+ `atlas/_probe_harness_answers.json` sidecar).
 
 ## 5. What the LLM did NOT do
 

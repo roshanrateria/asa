@@ -44,9 +44,12 @@ adding SF-9 (MCP masks application failure as success) and SF-10
 * a **deterministic checker** (`asa/policy.py` + `scripts/policy_check.py`)
   decides every PASS/FAIL against receipts - the LLM never decides,
 * **measured agent result** (`atlas/agent_probe.json`, rerunnable via
-  `scripts/agent_probe.py`): the exact masked-failure tool text from the
-  canonical receipts, multiple models x 2 framings, sampled with counts +
-  Wilson intervals - agents shown the text caught it in every measured trial;
+  `scripts/agent_probe.py` + `scripts/merge_probe_harness.py`): the exact
+  masked-failure tool text from the canonical receipts + the REAL
+  `create_invoice` schema as a third probe cell - NVIDIA primary model at
+  n=20/cell (temp 0.7) plus a glm-5.3-flash-free cross-engine leg at n=5/cell:
+  **0 hazard outcomes in 75 measured trials** (per-cell Wilson 95% upper
+  bound <= 0.43). Agents shown the text caught it in every measured trial;
   what is NOT demonstrated is the true exposure path (an MCP client that
   forwards only the structured flag - hypothesis, labeled as such).
 
@@ -87,9 +90,42 @@ python -m venv .venv
 .venv\Scripts\python scripts\policy_check.py --canon pass1d2  # v0 policies fail vs receipts -> v1 hazard-documentation
 .venv\Scripts\python scripts\replay_findings.py               # headline findings, live (7 bounded calls)
 .venv\Scripts\python scripts\agent_probe.py                   # measured agent result (NVIDIA leg; optional key)
+.venv\Scripts\python scripts\merge_probe_harness.py           # append cross-engine legs into atlas\agent_probe.json (offline)
+.venv\Scripts\python scripts\miskey_mcp_check.py              # MCP items-enforcement + masked-schema-rejection receipt
 .venv\Scripts\python scripts\build_atlas.py --canonical pass1d2  # delta tables
 .venv\Scripts\python scripts\build_report.py                  # report\index.html (offline)
 ```
+
+<details>
+<summary>POSIX / bash equivalents (macOS, Linux, WSL)</summary>
+
+```bash
+cp .env.example .env          # fill PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET (sandbox)
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+
+# probes (receipts land in runs/, git-ignored)
+.venv/bin/python scripts/spike0_smoke.py              # credentials + reads
+.venv/bin/python scripts/spike1_dup_probe.py          # idempotency ground truth
+.venv/bin/python scripts/spike2_money_path.py         # card capture gate (needs test card in .env)
+.venv/bin/python scripts/spike3_invoice_roundtrip.py  # invoice fallback slice
+.venv/bin/python scripts/spike4_mcp_snapshot.py       # MCP tool list (+ --remote)
+
+# the audit itself
+.venv/bin/python scripts/harness_pass1.py --tag pass1d2   # 108-candidate matrix (REST + MCP)
+.venv/bin/python scripts/policy_check.py --canon pass1d2  # v0 policies fail vs receipts -> v1 hazard-documentation
+.venv/bin/python scripts/replay_findings.py               # headline findings, live (7 bounded calls)
+.venv/bin/python scripts/agent_probe.py                   # measured agent result (NVIDIA leg; optional key)
+.venv/bin/python scripts/merge_probe_harness.py           # append cross-engine legs into atlas/agent_probe.json (offline)
+.venv/bin/python scripts/miskey_mcp_check.py              # MCP items-enforcement + masked-schema-rejection receipt
+.venv/bin/python scripts/build_atlas.py --canonical pass1d2  # delta tables
+.venv/bin/python scripts/build_report.py                  # report/index.html (offline)
+```
+
+Notes: the MCP stdio spike runs the official `@paypal/mcp` package via `npx`
+(Node 18+). On Windows the exact same commands work from Git Bash with
+`.venv/Scripts/python` instead of `.venv/bin/python`.
+</details>
 
 Judges: open `report/index.html` - it renders only what `runs/` receipts
 prove, plus `atlas/atlas_v0.md` (same data, markdown form), with the

@@ -29,8 +29,9 @@ explicitly documented - receipts arbitrate, not vibes.
   narrowed to receipted truth with the merchant-side mitigation written out
   (the fail -> hazard-documentation cycle is the demo);
 * attaches AI to the headline masking finding and MEASURES it: same masked
-  tool text, multiple models x 2 framings with n counts and Wilson intervals -
-  in the measured probes the agents that SEE the text catch it; the exposure
+  tool text + the real create_invoice schema, NVIDIA primary model n=20/cell
+  (temp 0.7) + glm-5.3-flash-free cross-engine legs n=5/cell, counts with
+  Wilson intervals - 0 hazard outcomes in 75 measured trials; the exposure
   NOT yet demonstrated is a client that forwards only the structured flag
   (stated as hypothesis, not result);
 * replays the headline findings live (`scripts/replay_findings.py`) so judges
@@ -54,10 +55,10 @@ explicitly documented - receipts arbitrate, not vibes.
   toolkit advertises the tools, the server does not expose them.
 * SF-9: MCP reports `isError=false` while its result TEXT carries the
   application-level failure (`{"ok":false,"status":406}`). Measured with AI
-  attached: reading-comprehension probes - multiple models x 2 framings, n
-  stated with Wilson intervals - the agents SHOWN the text catch it in every
-  measured trial; the exposure NOT demonstrated (labeled hypothesis, not
-  result) is a client that forwards only the structured flag. Second
+  attached: the agents SHOWN the text catch it in 0 hazards / 75 measured
+  trials (NVIDIA n=20/cell + GLM cross-engine n=5/cell, Wilson intervals in
+  `atlas/agent_probe.json`); the exposure NOT demonstrated (labeled
+  hypothesis, not result) is a client that forwards only the structured flag. Second
   independent instance receipted: a create_invoice schema rejection
   (`-32602 Required at items`) also rides `isError=false` with the error
   only in text (`atlas/miskey_mcp_check.json`).
@@ -82,8 +83,9 @@ raw compiled outputs, checker console) compiled the policies and drafted the
 hazard-documentation repairs, but the deterministic receipt-checker
 (`asa/policy.py`) decides every verdict; the artifact chain (compile ->
 fail -> counterexamples -> documented-hazard v1 -> recheck) is inspectable
-file by file. The measured agent result (6/6 catch) is the AI-story with
-numbers underneath. Sandbox-only BY CONSTRUCTION (`asa/config.py`
+file by file. The measured agent result (0 hazards in 75 trials, NVIDIA
+n=20/cell + GLM legs, Wilson intervals) is the AI-story with numbers
+underneath. Sandbox-only BY CONSTRUCTION (`asa/config.py`
 hard-refuses any non-sandbox credential; receipts carry a mock-header flag so
 forced and organic behavior stay distinguishable).
 
@@ -93,7 +95,7 @@ forced and organic behavior stay distinguishable).
 cp .env.example .env   # paste YOUR sandbox client id/secret
 python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\python scripts\replay_findings.py   # ~7 bounded sandbox calls, prints 4/4 REPLAYED
-.venv\Scripts\python scripts\agent_probe.py       # NVIDIA leg (add free NVIDIA_API_KEY); GLM/Qwen legs pre-recorded
+.venv\Scripts\python scripts\agent_probe.py       # NVIDIA leg (add free NVIDIA_API_KEY); then scripts\merge_probe_harness.py for cross-engine legs
 .venv\Scripts\python scripts\build_report.py      # renders report\index.html from artifacts
 ```
 

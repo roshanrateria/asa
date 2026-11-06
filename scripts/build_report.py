@@ -165,7 +165,36 @@ Canon pass <b>{html.escape(canon_p)}</b>{f" (aux {html.escape(aux_p)})" if aux_p
     # AI usage disclosure + measured agent result
     agents = maybe("agent_probe.json")
     parts.append("<h2>AI usage disclosure &amp; measured agent result</h2>")
-    parts.append("""<div>Language model use, named per the hackathon rules:
+
+    # measured-agent bullet: numbers computed from the artifact, never hardcoded
+    if agents:
+        checked = [p for p in agents.get("probes", []) if not p.get("error")]
+        n_total = sum(sum(p.get("counts", {}).values()) for p in checked)
+        h_total = sum(r.get("hazard_count", 0)
+                      for r in agents.get("summary_rows", []))
+        uppers = []
+        for r in agents.get("summary_rows", []):
+            s = r.get("hazard_share_wilson95", "")
+            if "[" in s and "]" in s:
+                uppers.append(float(s.split("[", 1)[1].rstrip("]").split(",")[1]))
+        hi = f"{max(uppers):.2f}" if uppers else "n/a"
+        measured_text = (
+            f"exact masked-failure tool text from canonical receipts (pass1d2"
+            f" seq 189/196) plus the REAL create_invoice schema as a third"
+            f" probe cell; NVIDIA primary model n=20/cell (temp 0.7) plus"
+            f" glm-5.3-flash-free cross-engine legs n=5/cell: <b>{h_total}"
+            f" hazard outcomes in {n_total} measured trials</b> (per-cell"
+            f" Wilson 95% upper bound &le; {hi}). In every measured trial"
+            f" agents SHOWN the text catch the masked failure and build the"
+            f" schema-shaped body; the untested exposure (a client forwarding"
+            f" only the structured <code>isError</code> flag) stays a labeled"
+            f" hypothesis, not a result.")
+    else:
+        measured_text = ("reading-comprehension probes with the exact"
+                         " masked-failure tool text from canonical receipts"
+                         " (pass1d2 seq 189/196) - run scripts/agent_probe.py"
+                         " to regenerate.")
+    parts.append(f"""<div>Language model use, named per the hackathon rules:
 <ul>
 <li><b>Compile + repair authoring:</b> GLM-5.3 Flash Free (opencode harness) compiled
 the merchant policies to <code>policies/compiled/*_v0.json</code> and drafted the
@@ -175,27 +204,36 @@ and repair diffs at <code>docs/llm_transcripts.md</code>.</li>
 deterministic checker <code>asa/policy.py</code> against receipts - the LLM never
 decides (and v1 is <i>known-hazard documentation</i>, not a repair that removes
 any hazard: see <code>policy_status</code> in each v1 file).</li>
-<li><b>Measured agent result (<code>atlas/agent_probe.json</code>):</b> reading-comprehension
-probes with the exact masked-failure tool text from canonical receipts
-(pass1d2 seq 189/196): multiple models &times; 2 framings, n per cell stated
-with Wilson intervals. In every measured trial agents that SEE the text catch
-the ok:false; the untested exposure is the SF-9 mechanism itself - a client
-that forwards only the structured <code>isError</code> flag - which stays a
-labeled hypothesis, not a result.</li>
+<li><b>Measured agent result (<code>atlas/agent_probe.json</code>):</b> {measured_text}</li>
 </ul></div>""")
     if agents:
         rows = "".join(
-            "<tr><td>{m}</td><td>{fm}</td><td>{v}</td><td>{a}</td></tr>".format(
-                m=html.escape(str(p.get("model_used") or p.get("model"))),
-                fm=html.escape(str(p.get("framing", "f1"))),
-                v=html.escape(str(p.get("verdict"))),
-                a=html.escape(str(p.get("action", "-"))))
-            for p in agents.get("probes", []))
-        parts.append("<table><tr><th>model</th><th>framing</th>"
-                     "<th>verdict</th><th>action</th></tr>" + rows + "</table>")
+            "<tr><td>{m}</td><td>{pr}</td><td>{n}</td><td class='sub'>{c}</td>"
+            "<td>{h}</td></tr>".format(
+                m=html.escape(str(r["model"])), pr=html.escape(str(r["probe"])),
+                n=r["n"],
+                c=html.escape(json.dumps(r.get("counts", {}), sort_keys=True)),
+                h=html.escape(str(r.get("hazard_share_wilson95"))))
+            for r in agents.get("summary_rows", []))
+        parts.append("<table><tr><th>leg / model</th><th>probe cell</th><th>n</th>"
+                     "<th>verdict counts</th><th>hazard share (Wilson 95%)</th></tr>"
+                     + rows + "</table>")
+        for p in agents.get("probes", []):
+            if p.get("error"):
+                parts.append(
+                    "<div class='sub'>leg UNAVAILABLE at probe time - recorded,"
+                    " never substituted: {e} / {pr} ({err})</div>".format(
+                        e=html.escape(str(p.get("engine") or p.get("model"))),
+                        pr=html.escape(str(p.get("probe"))),
+                        err=html.escape(str(p.get("error")))))
+        parts.append(
+            "<div class='sub'>miskey/MCP schema-boundary verdict (receipted,"
+            " <code>atlas/miskey_mcp_check.json</code>): {v}</div>".format(
+                v=html.escape(str(agents.get("miskey_mcp_check", "n/a")))))
     else:
         parts.append("<div class='sub'>agent_probe.json missing - run "
-                     "scripts/agent_probe.py.</div>")
+                     "scripts/agent_probe.py then "
+                     "scripts/merge_probe_harness.py.</div>")
 
     # honest exclusions
     parts.append("<h2>Honest exclusions (never silence)</h2><ul>")
