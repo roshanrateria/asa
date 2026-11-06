@@ -1,0 +1,452 @@
+{
+ "source": "runs/replay-findings.jsonl",
+ "cells": "replay-r1..r4 (SF-5 mis-key create+read-back, SF-1x pair, SF-10 hostile text, SF-9 masked failure)",
+ "rows": [
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:32:27.556+00:00",
+   "run_id": "replay-findings",
+   "seq": 1,
+   "cell": "replay-r1",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD"
+     },
+     "line_items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "20.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": null,
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "INV2-V7NQ-RYX2-PGY2-BYYW"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"rel\": \"self\", \"href\": \"https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-V7NQ-RYX2-PGY2-BYYW\", \"method\": \"GET\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R1 mis-keyed line_items create"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:32:28.188+00:00",
+   "run_id": "replay-findings",
+   "seq": 2,
+   "cell": "replay-r1",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices/INV2-V7NQ-RYX2-PGY2-BYYW",
+   "request": {
+    "method": "GET",
+    "params": null,
+    "json": null,
+    "headers_of_interest": {
+     "sent_paypal_request_id": null,
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 200,
+    "ids": [
+     "INV2-V7NQ-RYX2-PGY2-BYYW"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"INV2-V7NQ-RYX2-PGY2-BYYW\", \"status\": \"DRAFT\", \"detail\": {\"currency_code\": \"USD\", \"category_code\": \"SHIPPABLE\", \"invoice_number\": \"0428\", \"invoice_date\": \"2026-11-06\", \"payment_term\": {\"term_type\": \"NO_DUE_DATE\"}, \"viewed_by_recipient\": false, \"group_draft\": false, \"metadata\": {\"create_time\": \"2026-11-06T12:32:35Z\", \"last_update_time\": \"2026-11-06T12:32:35Z\", \"created_by_flow\": \"REGULAR_SIN"
+   },
+   "mock_header_used": false,
+   "notes": "replay R1 read-back"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:32:28.990+00:00",
+   "run_id": "replay-findings",
+   "seq": 3,
+   "cell": "replay-r2",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD"
+     },
+     "items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "5.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "1bf2005f-fe90-433d-baf1-2897e7d16e5c",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "INV2-LT37-UBZG-VZKL-N9KP"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"rel\": \"self\", \"href\": \"https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-LT37-UBZG-VZKL-N9KP\", \"method\": \"GET\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R2 same-header create #0"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:32:29.623+00:00",
+   "run_id": "replay-findings",
+   "seq": 4,
+   "cell": "replay-r2",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD"
+     },
+     "items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "5.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "1bf2005f-fe90-433d-baf1-2897e7d16e5c",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "INV2-EDV2-YPKJ-MVPS-GGDK"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"rel\": \"self\", \"href\": \"https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-EDV2-YPKJ-MVPS-GGDK\", \"method\": \"GET\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R2 same-header create #1"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:32:29.719+00:00",
+   "run_id": "replay-findings",
+   "seq": 5,
+   "cell": "replay-r3",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD",
+      "note": "<script>alert(1)</script> ../../etc/passwd"
+     },
+     "items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "5.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": null,
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 403,
+    "ids": [],
+    "debug_id": null,
+    "excerpt": "\"<!DOCTYPE html>\\n<!--[if lt IE 7]> <html class=\\\"no-js ie6 oldie\\\" lang=\\\"en-US\\\"> <![endif]-->\\n<!--[if IE 7]>    <html class=\\\"no-js ie7 oldie\\\" lang=\\\"en-US\\\"> <![endif]-->\\n<!--[if IE 8]>    <html class=\\\"no-js ie8 oldie\\\" lang=\\\"en-US\\\"> <![endif]-->\\n<!--[if gt IE 8]><!--> <html class=\\\"no-js\\\" lang=\\\"en-US\\\"> <!--<![endif]-->\\n<head>\\n<title>Attention Required! | Cloudflare</title>\\n<meta "
+   },
+   "mock_header_used": false,
+   "notes": "replay R3 script payload in note"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:32:35.919+00:00",
+   "run_id": "replay-findings",
+   "seq": 6,
+   "cell": "replay-r4",
+   "transport": "mcp-stdio",
+   "tool": "create_invoice",
+   "request": {
+    "note": "<script>alert(1)</script> ../../etc/pass"
+   },
+   "response": {
+    "status": 200,
+    "excerpt": "{\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R4 mcp masked failure?"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:33:56.744+00:00",
+   "run_id": "replay-findings",
+   "seq": 1,
+   "cell": "replay-r1",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD"
+     },
+     "line_items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "20.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": null,
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "INV2-7H2B-NFTE-NR7L-8TG5"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"rel\": \"self\", \"href\": \"https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-7H2B-NFTE-NR7L-8TG5\", \"method\": \"GET\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R1 mis-keyed line_items create"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:33:57.718+00:00",
+   "run_id": "replay-findings",
+   "seq": 2,
+   "cell": "replay-r1",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices/INV2-7H2B-NFTE-NR7L-8TG5",
+   "request": {
+    "method": "GET",
+    "params": null,
+    "json": null,
+    "headers_of_interest": {
+     "sent_paypal_request_id": null,
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 200,
+    "ids": [
+     "INV2-7H2B-NFTE-NR7L-8TG5"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"INV2-7H2B-NFTE-NR7L-8TG5\", \"status\": \"DRAFT\", \"detail\": {\"currency_code\": \"USD\", \"category_code\": \"SHIPPABLE\", \"invoice_number\": \"0431\", \"invoice_date\": \"2026-11-06\", \"payment_term\": {\"term_type\": \"NO_DUE_DATE\"}, \"viewed_by_recipient\": false, \"group_draft\": false, \"metadata\": {\"create_time\": \"2026-11-06T12:34:03Z\", \"last_update_time\": \"2026-11-06T12:34:03Z\", \"created_by_flow\": \"REGULAR_SIN"
+   },
+   "mock_header_used": false,
+   "notes": "replay R1 read-back"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:33:59.224+00:00",
+   "run_id": "replay-findings",
+   "seq": 3,
+   "cell": "replay-r2",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD"
+     },
+     "items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "5.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "9b3ac644-8eaf-48da-ae34-c62eba507bce",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "INV2-NSTT-9ZES-RVUM-BW37"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"rel\": \"self\", \"href\": \"https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-NSTT-9ZES-RVUM-BW37\", \"method\": \"GET\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R2 same-header create #0"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:34:00.676+00:00",
+   "run_id": "replay-findings",
+   "seq": 4,
+   "cell": "replay-r2",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD"
+     },
+     "items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "5.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "9b3ac644-8eaf-48da-ae34-c62eba507bce",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "INV2-GQKP-LC4H-GWL6-CK95"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"rel\": \"self\", \"href\": \"https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-GQKP-LC4H-GWL6-CK95\", \"method\": \"GET\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R2 same-header create #1"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:34:00.818+00:00",
+   "run_id": "replay-findings",
+   "seq": 5,
+   "cell": "replay-r3",
+   "transport": "rest",
+   "tool": "/v2/invoicing/invoices",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "detail": {
+      "currency_code": "USD",
+      "note": "<script>alert(1)</script> ../../etc/passwd"
+     },
+     "items": [
+      {
+       "name": "asa replay probe",
+       "unit_amount": {
+        "currency_code": "USD",
+        "value": "5.00"
+       },
+       "quantity": "1"
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": null,
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 406,
+    "ids": [],
+    "debug_id": null,
+    "excerpt": "\"\""
+   },
+   "mock_header_used": false,
+   "notes": "replay R3 script payload in note"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:34:09.523+00:00",
+   "run_id": "replay-findings",
+   "seq": 6,
+   "cell": "replay-r4",
+   "transport": "mcp-stdio",
+   "tool": "create_invoice",
+   "request": {
+    "note": "<script>alert(1)</script> ../../etc/pass"
+   },
+   "response": {
+    "status": 200,
+    "excerpt": "{\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}"
+   },
+   "mock_header_used": false,
+   "notes": "replay R4 mcp masked failure?"
+  }
+ ]
+}

@@ -1,0 +1,326 @@
+{
+ "source": "runs/spike1-dup-probe.jsonl",
+ "rows_picked": "every row whose SENT PayPal-Request-Id header is receipted (orders v2 honors it: 200 return-existing, same id, ~49 min later)",
+ "rows": [
+  {
+   "v": 1,
+   "ts": "2026-11-05T18:45:47.339+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 1,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "ab8fd994-162f-4a44-adcc-44c187ef90cc",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "48A141009H189350U"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"48A141009H189350U\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/48A141009H189350U\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=48A141009H189350U\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/48A141009H189350U\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 A_fresh_ids call0"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T18:45:48.936+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 2,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "16bc537f-cb21-43bc-b3d2-a3dde845a446",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "6RM96643EJ4266520"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"6RM96643EJ4266520\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6RM96643EJ4266520\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=6RM96643EJ4266520\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6RM96643EJ4266520\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 A_fresh_ids call1"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T18:45:49.740+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 3,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "asa-spike1-fixed",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "6G148607GN364421S"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"6G148607GN364421S\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=6G148607GN364421S\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 B_same_id call0"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T18:45:50.381+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 4,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "asa-spike1-fixed",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 200,
+    "ids": [
+     "6G148607GN364421S"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"6G148607GN364421S\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=6G148607GN364421S\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 B_same_id call1"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T19:34:24.107+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 1,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "480f6f15-4f2c-4c17-a73c-90ab25398236",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "4RR368661L0098513"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"4RR368661L0098513\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/4RR368661L0098513\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=4RR368661L0098513\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/4RR368661L0098513\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 A_fresh_ids call0"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T19:34:27.814+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 2,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "869b0874-19ed-4f18-afbf-a9f14cfcaefb",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 201,
+    "ids": [
+     "2JA79866V2462720Y"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"2JA79866V2462720Y\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/2JA79866V2462720Y\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=2JA79866V2462720Y\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/2JA79866V2462720Y\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 A_fresh_ids call1"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T19:34:28.423+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 3,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "asa-spike1-fixed",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 200,
+    "ids": [
+     "6G148607GN364421S"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"6G148607GN364421S\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=6G148607GN364421S\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 B_same_id call0"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-05T19:34:29.061+00:00",
+   "run_id": "spike1-dup-probe",
+   "seq": 4,
+   "cell": null,
+   "transport": "rest",
+   "tool": "/v2/checkout/orders",
+   "request": {
+    "method": "POST",
+    "params": null,
+    "json": {
+     "intent": "CAPTURE",
+     "purchase_units": [
+      {
+       "amount": {
+        "currency_code": "USD",
+        "value": "2.50"
+       }
+      }
+     ]
+    },
+    "headers_of_interest": {
+     "sent_paypal_request_id": "asa-spike1-fixed",
+     "echoed_paypal_request_id": null,
+     "debug_id": null,
+     "mock_header_used": false
+    }
+   },
+   "response": {
+    "status": 200,
+    "ids": [
+     "6G148607GN364421S"
+    ],
+    "debug_id": null,
+    "excerpt": "{\"id\": \"6G148607GN364421S\", \"status\": \"CREATED\", \"links\": [{\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"self\", \"method\": \"GET\"}, {\"href\": \"https://www.sandbox.paypal.com/checkoutnow?token=6G148607GN364421S\", \"rel\": \"approve\", \"method\": \"GET\"}, {\"href\": \"https://api.sandbox.paypal.com/v2/checkout/orders/6G148607GN364421S\", \"rel\": \"update\", \"method\": \"PATCH"
+   },
+   "mock_header_used": false,
+   "notes": "spike1 B_same_id call1"
+  }
+ ]
+}

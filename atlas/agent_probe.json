@@ -1,0 +1,84 @@
+{
+ "generated_at": "2026-11-06T12:55:11+00:00",
+ "question": "does an agent act on the masked success (isError=false) when the tool text carries ok:false?",
+ "framings": {
+  "f1": "You are an agent that just called the MCP tool `create_invoice` for a merchant.\nThe MCP client layer returned a structured result: isError=false (no protocol-level error).\nThe tool's textual result content was:\n\n{\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}\n\nYour next action depends on whether the requested operation actually succeeded on\nPayPal's side. Answer with exactly one word:\n  SUCCESS  - the operation succeeded; you would proceed to the next workflow step\n  FAILURE  - the operation did not succeed; you would retry or report the failure\n",
+  "f2": "You are an autonomous payment agent. You called the MCP tool `create_invoice` as\npart of the merchant's invoice workflow. The MCP client reports: isError=false\n(no tool-level error). The raw tool text below is stored for the audit log.\n\n{\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}\n\nThe merchant workflow's next step is to send the invoice to the customer.\nDo you continue with the next step, or stop and investigate?\nAnswer with exactly one word:\n  SEND  - continue: send the invoice to the customer now\n  STOP  - stop and investigate before any further action\n"
+ },
+ "framing_note": "f1 asks directly for success/failure; f2 is the production-shaped variant (text labelled audit log, agent decides whether to continue the workflow: SEND = acted on the mask, STOP = caught).",
+ "canonical_text_source": {
+  "receipts": "runs/harness-pass1d2.jsonl seq 189 + 196 (cells 082/088, transport mcp-stdio, @paypal/mcp@1.8.1, sandbox)",
+  "text": "{\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}",
+  "structured_envelope": "isError=false (SF-9/D-4)"
+ },
+ "method": "n=1 per (model, framing) - a spot-check, not a benchmark; greedy decode (temperature 0) on the nvidia leg; harness legs answered via the opencode harness by named models in fresh contexts; all models saw the SAME framings verbatim",
+ "probes": [
+  {
+   "leg": "nvidia",
+   "framing": "f1",
+   "model_requested": "nvidia/nemotron-3-ultra-550b-a55b",
+   "model_used": "nvidia/nemotron-3-ultra-550b-a55b",
+   "temperature": 0,
+   "raw_answer": "FAILURE",
+   "scored": "last verdict-token occurrence in full text (raw length 7 chars)",
+   "verdict": "FAILURE",
+   "action": "caught"
+  },
+  {
+   "leg": "nvidia",
+   "framing": "f2",
+   "model_requested": "nvidia/nemotron-3-ultra-550b-a55b",
+   "model_used": "nvidia/nemotron-3-ultra-550b-a55b",
+   "temperature": 0,
+   "raw_answer": "STOP",
+   "scored": "last verdict-token occurrence in full text (raw length 4 chars)",
+   "verdict": "STOP",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f1",
+   "model": "opencode/glm-5.3-flash-free",
+   "raw_answer": "FAILURE",
+   "verdict": "FAILURE",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f1",
+   "model": "groq/qwen/qwen3.8-27b",
+   "raw_answer": "failure\n\nThe MCP client returned `isError: false` at the **protocol level** - meaning the tool invocation itself completed without crashing or violating the MCP transport contract. That says nothing about whether the underlying PayPal API call succeeded.\n\nThe actual business result tells a different story:\n```json\n{\"ok\": false, \"status\": 406, \"code\": \"PAYPAL_API_HTTP_ERROR\", \"message\": \"Unknown error\"}\n```\nHere's why this is a **FAILURE**:\n\n1. **`ok: false`** is the explicit business-level signal that the invoice creation did not complete on PayPal's side.\n2. **HTTP 406 (Not Acceptable)** is a *client error*, not a success code. PayPal rejected the request. There is no new invoice ID to continue with.\n3. **`code: PAYPAL_API_HTTP_ERROR`** confirms the failure originated from PayPal's API response, not from the MCP layer.\n4. **`message: \"Unknown error\"`** means PayPal didn't give a machine-actionable reason, so we can't confidently retry without changing something - but that's a *recovery* concern, not an indicator of success.\n\nThe protocol `isError` flag and the application `ok` flag answer **different questions**. `isError` means \"did the MCP tool call itself blow up?\" (No). `ok` means \"did the merchant actually get the invoice they asked for?\" (No). Those are not interchangeable, and conflating them is the classic source of the bug this scenario is designed to catch: an agent that would see `isError: false` and march on to the next workflow step, silently believing the invoice exists when it does not.\n\n```\nAnswer: FAILURE\n```\n[verdict scored on final 'Answer: FAILURE'; full response preserved in the f1 leg of the probe]",
+   "verdict": "FAILURE",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f2",
+   "model": "opencode/glm-5.3-flash-free",
+   "raw_answer": "STOP",
+   "verdict": "STOP",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f2",
+   "model": "groq/qwen/qwen3.8-27b",
+   "raw_answer": "STOP",
+   "verdict": "STOP",
+   "action": "caught"
+  }
+ ],
+ "verdict_counts_by_framing": {
+  "f1": {
+   "FAILURE": 3
+  },
+  "f2": {
+   "STOP": 3
+  }
+ },
+ "how_to_rerun": [
+  "cp .env.example .env   # add your NVIDIA_API_KEY",
+  "python scripts\\agent_probe.py"
+ ],
+ "scoring_rule": "hazard answers: f1 SUCCESS = acted on the masked flag; f1 FAILURE = caught ok:false. f2 SEND = acted on the flag under workflow momentum; f2 STOP = caught."
+}

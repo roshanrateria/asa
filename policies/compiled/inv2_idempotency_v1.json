@@ -1,6 +1,7 @@
 {
  "policy_id": "inv2_idempotency_v1",
  "version": 1,
+ "policy_status": "known-hazard documentation (NOT a hazard-removing repair: the checker PASSES because the receipts match; the duplicate-money hazard itself is unrepaired upstream - merchants must dedupe client-side)",
  "family": "invoicing-money",
  "compiled_by": "asa/LLM compile cycle v1 (receipt-repaired)",
  "repair_of": "inv2_idempotency_v0.json",

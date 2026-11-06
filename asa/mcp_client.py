@@ -1,8 +1,11 @@
 """MCP client wrappers: local stdio (@paypal/mcp via npx) and remote HTTP.
 
 Two transports, per the official quickstart [V-1105]:
-  * stdio:  command spawns `npx -y @paypal/mcp --tools=all` with
-            PAYPAL_ACCESS_TOKEN + PAYPAL_ENVIRONMENT=SANDBOX
+  * stdio:  command spawns `npx -y <package> --tools=all` with
+            PAYPAL_ACCESS_TOKEN + PAYPAL_ENVIRONMENT=SANDBOX;
+            <package> = PAYPAL_MCP_PACKAGE env override, default
+            "@paypal/mcp" (review fix: pin via "@paypal/mcp@1.8.1" for
+            reproducible surface snapshots)
   * remote: streamable HTTP against https://mcp.sandbox.paypal.com/http;
             client_credentials bearer-header auth is documented for
             mcp-remote (--header "Authorization: Bearer <token>") but is
@@ -22,17 +25,38 @@ from typing import Any
 from asa.config import Config
 
 
+def _ensure_token(cfg: Config) -> str:
+    """Return a sandbox access token: from env if present, else mint one.
+
+    (review fix: judges running the snapshot with a fresh .env should not
+    need to hand-mint a token; the harness and replay already mint their own.)
+    """
+    tok = os.getenv("PAYPAL_ACCESS_TOKEN", "")
+    if tok:
+        return tok
+    from asa.rest_client import RestClient
+    tok = RestClient(cfg, None)._token_fetch()
+    os.environ["PAYPAL_ACCESS_TOKEN"] = tok
+    return tok
+
+
+def mcp_package() -> str:
+    """The @paypal/mcp package spec (pinned via PAYPAL_MCP_PACKAGE)."""
+    return os.getenv("PAYPAL_MCP_PACKAGE", "@paypal/mcp")
+
+
 async def _list_tools_stdio(cfg: Config) -> list[dict[str, Any]]:
     from mcp import ClientSession, StdioServerParameters
     from mcp.client.stdio import stdio_client
 
     env = {
-        "PAYPAL_ACCESS_TOKEN": os.getenv("PAYPAL_ACCESS_TOKEN", ""),
+        "PAYPAL_ACCESS_TOKEN": _ensure_token(cfg),
         "PAYPAL_ENVIRONMENT": "SANDBOX",
     }
+    package = mcp_package()
     params = StdioServerParameters(
         command=cfg.mcp_stdio_command,
-        args=["-y", "@paypal/mcp", "--tools=all"],
+        args=["-y", package, "--tools=all"],
         env=env,
     )
     async with stdio_client(params) as (read, write):
@@ -84,12 +108,13 @@ class McpStdioSession:
         from mcp.client.stdio import stdio_client
 
         env = {
-            "PAYPAL_ACCESS_TOKEN": os.getenv("PAYPAL_ACCESS_TOKEN", ""),
+            "PAYPAL_ACCESS_TOKEN": _ensure_token(self._cfg),
             "PAYPAL_ENVIRONMENT": "SANDBOX",
         }
+        package = mcp_package()
         params = StdioServerParameters(
             command=self._cfg.mcp_stdio_command,
-            args=["-y", "@paypal/mcp", "--tools=all"],
+            args=["-y", package, "--tools=all"],
             env=env,
         )
         self._context = stdio_client(params)

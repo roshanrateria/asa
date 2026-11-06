@@ -43,8 +43,18 @@ def main() -> int:
         return 1
 
     out = Path(cfg.runs_dir) / f"mcp_tools_snapshot_{transport}.json"
-    out.write_text(json.dumps({"transport": transport, "tools": tools}, indent=2),
-                   encoding="utf-8")
+    payload = {
+        "transport": transport,
+        "provenance": {
+            "package_spec": mcp_client.mcp_package(),
+            "spawn": f"{cfg.mcp_stdio_command} -y {mcp_client.mcp_package()} --tools=all",
+            "snapshot_date": __import__("datetime").date.today().isoformat(),
+            "token_source": "env or freshly minted sandbox client_credentials "
+                            "(secret never stored here)",
+        },
+        "tools": tools,
+    }
+    out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     names = [t["name"] for t in tools]
     print(f"SPIKE4: PASS - {len(names)} tools via {transport}")

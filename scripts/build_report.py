@@ -42,6 +42,8 @@ def main() -> int:
 
     counts = atlas.get("counts_canon_plus_aux", {})
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    deltas = atlas.get("deltas", [])
+    exercised = [d for d in deltas if not d["status"].startswith("NOT EXERCISED")]
 
     css = """
     :root { --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc;
@@ -77,12 +79,14 @@ def main() -> int:
             border-top:1px solid var(--line); padding-top:10px; }
     """
 
+    canon_p = atlas.get("canonical_pass") or "?"
+    aux_p = atlas.get("aux_pass")
     kpis = "".join([
         f"<span class='kpi'><b>{counts.get('total_cells', '?')}</b>candidate cells</span>",
         f"<span class='kpi'><b>{counts.get('executed_rest', '?')}</b>REST executed</span>",
         f"<span class='kpi'><b>{counts.get('executed_mcp', '?')}</b>MCP executed</span>",
         f"<span class='kpi'><b>{counts.get('verdicts', {}).get('DRIFT', 0)}</b>DRIFT (deltas)</span>",
-        f"<span class='kpi'><b>{len(atlas.get('deltas', []))}</b>receipted deltas D-1..</span>",
+        f"<span class='kpi'><b>{len(exercised)}/{len(deltas)}</b>receipted deltas (last: D-8 not exercised)</span>",
     ])
 
     parts = [f"""<!doctype html><html><head><meta charset="utf-8">
@@ -91,8 +95,8 @@ def main() -> int:
 <h1>Agent Surface Audit (asa)</h1>
 <div class="sub">black-box audit of PayPal's agent surface (MCP @paypal/mcp + REST
 invoice family), sandbox-only; every claim below cites receipts under <code>runs/</code>.
-Canon pass <b>{html.escape(atlas.get('canonical_pass') or '?')}</b>
- (aux {html.escape(str(atlas.get('aux_pass')))}). Generated {generated}.</div>
+Canon pass <b>{html.escape(canon_p)}</b>{f" (aux {html.escape(aux_p)})" if aux_p else ""}
+. Generated {generated}.</div>
 {kpis}
 """]
 
@@ -156,6 +160,42 @@ Canon pass <b>{html.escape(atlas.get('canonical_pass') or '?')}</b>
     else:
         parts.append("<div class='sub'>replay_findings.json missing - run"
                      " scripts/replay_findings.py.</div>")
+
+    # AI usage disclosure + measured agent result
+    agents = maybe("agent_probe.json")
+    parts.append("<h2>AI usage disclosure &amp; measured agent result</h2>")
+    parts.append("""<div>Language model use, named per the hackathon rules:
+<ul>
+<li><b>Compile + repair authoring:</b> GLM-5.3 Flash Free (opencode harness) compiled
+the merchant policies to <code>policies/compiled/*_v0.json</code> and drafted the
+<code>*_v1.json</code> repairs - transcripts: model id, prompts, raw v0 outputs
+and repair diffs at <code>docs/llm_transcripts.md</code>.</li>
+<li><b>Verdicts:</b> every FAIL/PASS verdict on a policy is decided by the
+deterministic checker <code>asa/policy.py</code> against receipts - the LLM never
+decides (and v1 is <i>known-hazard documentation</i>, not a repair that removes
+any hazard: see <code>policy_status</code> in each v1 file).</li>
+<li><b>Measured agent result (<code>atlas/agent_probe.json</code>):</b> with the exact
+masked-failure tool text from canonical receipts (pass1d2 seq 189/196), 3 models
+&times; 2 framings - GLM-5.3 Flash Free, Qwen3.8-27B (groq),
+nvidia/nemotron-3-ultra-550b-a55b (key-per-rerun reproducible) - all 6 probes
+<b>caught</b> the ok:false inside the text (f1 FAILURE 3/3, f2 STOP 3/3).
+Reading: conversational agents that SEE the text are not fooled; the residual
+hazard is client-shaped - any MCP client that forwards only the structured
+<code>isError</code> flag propagates the mask. SF-9 stands as a protocol finding.</li>
+</ul></div>""")
+    if agents:
+        rows = "".join(
+            "<tr><td>{m}</td><td>{fm}</td><td>{v}</td><td>{a}</td></tr>".format(
+                m=html.escape(str(p.get("model_used") or p.get("model"))),
+                fm=html.escape(str(p.get("framing", "f1"))),
+                v=html.escape(str(p.get("verdict"))),
+                a=html.escape(str(p.get("action", "-"))))
+            for p in agents.get("probes", []))
+        parts.append("<table><tr><th>model</th><th>framing</th>"
+                     "<th>verdict</th><th>action</th></tr>" + rows + "</table>")
+    else:
+        parts.append("<div class='sub'>agent_probe.json missing - run "
+                     "scripts/agent_probe.py.</div>")
 
     # honest exclusions
     parts.append("<h2>Honest exclusions (never silence)</h2><ul>")

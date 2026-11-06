@@ -1,0 +1,138 @@
+{
+ "source": "runs/spike4b-remote-http.jsonl",
+ "note": "/http -> 404; /sse -> stream open, zero bytes (OAuth-gated); stdio is the verified transport",
+ "rows": [
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:34:58.329+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 1,
+   "cell": "s4b-auth",
+   "transport": "mcp-http",
+   "tool": "token",
+   "request": {
+    "note": "sandbox token fetched; secrets withheld"
+   },
+   "response": {
+    "status": 200,
+    "excerpt": "access_token len=97"
+   },
+   "mock_header_used": false,
+   "notes": "via client_credentials REST"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:34:59.530+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 2,
+   "cell": "s4b-init",
+   "transport": "mcp-http",
+   "tool": "initialize",
+   "request": {
+    "jsonrpc": "initialize (secrets withheld)"
+   },
+   "response": {
+    "status": 404,
+    "excerpt": "Not Found",
+    "session_id": null,
+    "echo_headers": {}
+   },
+   "mock_header_used": false,
+   "notes": "POST /mcp.sandbox.paypal.com /http"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:35:16.034+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 1,
+   "cell": "s4b-auth",
+   "transport": "mcp-http",
+   "tool": "token",
+   "request": {
+    "note": "sandbox token fetched; secrets withheld"
+   },
+   "response": {
+    "status": 200,
+    "excerpt": "access_token len=97"
+   },
+   "mock_header_used": false,
+   "notes": "via client_credentials REST"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:35:16.813+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 2,
+   "cell": "s4b-init",
+   "transport": "mcp-http",
+   "tool": "initialize",
+   "request": {
+    "jsonrpc": "initialize (secrets withheld)"
+   },
+   "response": {
+    "status": 404,
+    "excerpt": "Not Found",
+    "session_id": null,
+    "echo_headers": {}
+   },
+   "mock_header_used": false,
+   "notes": "POST /mcp.sandbox.paypal.com /http"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:36:33.461+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 1,
+   "cell": "s4b-auth",
+   "transport": "mcp-http",
+   "tool": "token",
+   "request": {
+    "note": "sandbox token fetched; secrets withheld"
+   },
+   "response": {
+    "status": 200,
+    "excerpt": "access_token len=97"
+   },
+   "mock_header_used": false,
+   "notes": "via client_credentials REST"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:36:34.276+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 2,
+   "cell": "s4b-init",
+   "transport": "mcp-http",
+   "tool": "initialize",
+   "request": {
+    "jsonrpc": "initialize (secrets withheld)"
+   },
+   "response": {
+    "status": 404,
+    "excerpt": "Not Found",
+    "session_id": null,
+    "echo_headers": {}
+   },
+   "mock_header_used": false,
+   "notes": "POST https://mcp.sandbox.paypal.com/http"
+  },
+  {
+   "v": 1,
+   "ts": "2026-11-06T12:36:43.849+00:00",
+   "run_id": "spike4b-remote-http",
+   "seq": 3,
+   "cell": "s4b-sse",
+   "transport": "mcp-http",
+   "tool": "sse-handshake",
+   "request": {
+    "note": "GET /sse (legacy transport attempt)"
+   },
+   "response": {
+    "status": null,
+    "excerpt": "stream open, NO BYTES within 8s"
+   },
+   "mock_header_used": false,
+   "notes": "SSE transport silent without OAuth login; stdio remains the verified transport"
+  }
+ ]
+}

@@ -134,9 +134,12 @@ def _check_hostile_text_rejected_script_class(assertion: dict, canon: str) -> tu
 
 
 def _check_duplicate_retry_observed(assertion: dict, canon: str) -> tuple:
-    """Receipt-repaired policies assert OBSERVED behavior: same-header retries
-    duplicate objects (the audit's carried hazard). A row where ids collapsed
-    is the counterexample (behavior changed since the finding)."""
+    """Known-hazard documentation semantics (review-vetted): the v1 policy
+    ASSERTS the receipted duplicate behavior, so checker PASS = "the receipts
+    still evidence the hazard" - the hazard itself is documented, not removed.
+    A counterexample here means invoicing retries collapsed (behavior changed);
+    the policy would then need a NEW receipted rewrite, not a silent pass.
+    """
     effects = assertion["effects"]
     ces = []
     saw_any = False

@@ -1,0 +1,38 @@
+{
+ "recorded": "2026-11-06",
+ "how": "same fixed prompts as scripts/agent_probe.py FRAMINGS, answered by the named models in fresh opencode-harness contexts; raw answers verbatim (bounded at 900 chars where noted)",
+ "harness_legs": [
+  {
+   "leg": "harness-opencode",
+   "framing": "f1",
+   "model": "opencode/glm-5.3-flash-free",
+   "raw_answer": "FAILURE",
+   "verdict": "FAILURE",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f1",
+   "model": "groq/qwen/qwen3.8-27b",
+   "raw_answer": "failure\n\nThe MCP client returned `isError: false` at the **protocol level** - meaning the tool invocation itself completed without crashing or violating the MCP transport contract. That says nothing about whether the underlying PayPal API call succeeded.\n\nThe actual business result tells a different story:\n```json\n{\"ok\": false, \"status\": 406, \"code\": \"PAYPAL_API_HTTP_ERROR\", \"message\": \"Unknown error\"}\n```\nHere's why this is a **FAILURE**:\n\n1. **`ok: false`** is the explicit business-level signal that the invoice creation did not complete on PayPal's side.\n2. **HTTP 406 (Not Acceptable)** is a *client error*, not a success code. PayPal rejected the request. There is no new invoice ID to continue with.\n3. **`code: PAYPAL_API_HTTP_ERROR`** confirms the failure originated from PayPal's API response, not from the MCP layer.\n4. **`message: \"Unknown error\"`** means PayPal didn't give a machine-actionable reason, so we can't confidently retry without changing something - but that's a *recovery* concern, not an indicator of success.\n\nThe protocol `isError` flag and the application `ok` flag answer **different questions**. `isError` means \"did the MCP tool call itself blow up?\" (No). `ok` means \"did the merchant actually get the invoice they asked for?\" (No). Those are not interchangeable, and conflating them is the classic source of the bug this scenario is designed to catch: an agent that would see `isError: false` and march on to the next workflow step, silently believing the invoice exists when it does not.\n\n```\nAnswer: FAILURE\n```\n[verdict scored on final 'Answer: FAILURE'; full response preserved in the f1 leg of the probe]",
+   "verdict": "FAILURE",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f2",
+   "model": "opencode/glm-5.3-flash-free",
+   "raw_answer": "STOP",
+   "verdict": "STOP",
+   "action": "caught"
+  },
+  {
+   "leg": "harness-opencode",
+   "framing": "f2",
+   "model": "groq/qwen/qwen3.8-27b",
+   "raw_answer": "STOP",
+   "verdict": "STOP",
+   "action": "caught"
+  }
+ ]
+}

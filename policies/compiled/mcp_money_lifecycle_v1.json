@@ -1,6 +1,7 @@
 {
  "policy_id": "mcp_money_lifecycle_v1",
  "version": 1,
+ "policy_status": "known-hazard documentation (NOT a hazard-removing repair: surface narrowed to the receipted truth; the isError masking stands unrepaired upstream - agents and clients must parse the text until PayPal fixes structured erroring)",
  "family": "mcp-surface",
  "compiled_by": "asa/LLM compile cycle v1 (receipt-repaired)",
  "repair_of": "mcp_money_lifecycle_v0.json",

@@ -1,0 +1,45 @@
+{
+ "provenance": {
+  "package_spec": "@paypal/mcp@1.8.1",
+  "spawn": "npx -y @paypal/mcp@1.8.1 --tools=all",
+  "snapshot_date": "2026-11-06",
+  "token_source": "env or freshly minted sandbox client_credentials (secret never stored here)"
+ },
+ "package": "@paypal/mcp@1.8.1",
+ "spawn": "npx -y @paypal/mcp@1.8.1 --tools=all",
+ "tool_count": 28,
+ "tools": [
+  "accept_dispute_claim",
+  "cancel_sent_invoice",
+  "cancel_subscription",
+  "create_invoice",
+  "create_order",
+  "create_product",
+  "create_refund",
+  "create_shipment_tracking",
+  "create_subscription",
+  "create_subscription_plan",
+  "generate_invoice_qr_code",
+  "get_dispute",
+  "get_invoice",
+  "get_order",
+  "get_refund",
+  "get_shipment_tracking",
+  "list_disputes",
+  "list_invoices",
+  "list_products",
+  "list_subscription_plans",
+  "list_transactions",
+  "pay_order",
+  "send_invoice",
+  "send_invoice_reminder",
+  "show_product_details",
+  "show_subscription_details",
+  "show_subscription_plan_details",
+  "update_product"
+ ],
+ "absent": [
+  "record_payment_for_invoice",
+  "record_refund_for_invoice"
+ ]
+}

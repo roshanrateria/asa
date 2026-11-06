@@ -1,9 +1,9 @@
 # Agent Surface Audit (`asa`)
 
 Black-box audit of **PayPal's own agent surface** - the official Agent Toolkit
-and MCP server - measured against their **sandbox** behaviour, then bounded
-exploit-sequence search over the measured model, with an LLM compiling
-merchant policies into a small DSL.
+and MCP server - measured against their **sandbox** behaviour, with an LLM
+compiling merchant policies into a small DSL that a deterministic checker
+confronts with the receipts.
 
 Built for the PayPal AI Hackathon ("Build What's Next with PayPal and AI",
 deadline Thu 12 Nov 2026, 12:00 PST). Sandbox only, by construction.
@@ -40,15 +40,17 @@ SF-5 (silent drop -> $0 invoice) is replayable live via
 ## Architecture (blueprint E5)
 
 ```
-targets:    REST api-m.sandbox.paypal.com | MCP @paypal/mcp (stdio) |
-            MCP mcp.sandbox.paypal.com/http (bearer-header attempt)
-probes:     108-cell matrix = 4 abuse classes x 27 cells
-            (3 effects x 3 preconditions x 3 call shapes), pruned + reported
+targets:    REST api-m.sandbox.paypal.com | MCP @paypal/mcp (stdio, pinned)
+            remote mcp.sandbox.paypal.com closed by spike4b (/http 404, /sse silent)
+probes:     108 candidate cells = 4 abuse classes x 27 combos
+            (3 effects x 3 preconditions x 3 call shapes); 96 excluded with
+            a receipted reason each (see atlas not_scheduled buckets);
+            canonical run executed 51 REST + 12 MCP, per (cell, transport)
 recorder:   JSONL receipts per call (ids, debug_id, mock-header flag, ts)
 model:      abstract states (order draft/authorized/captured; invoice
-            draft/sent/paid/refunded; dispute open)
-search:     explicit-state BFS, depth <= 6, amounts bucketed
-report:     static HTML with before/after, replay ids, coverage stats
+            draft/sent/paid/refunded) -- states are checked by compiled
+            policy assertions, NOT searched (no BFS implemented)
+report:     static offline HTML built only from receipt-derived artifacts
 ```
 
 ## Quickstart
@@ -87,18 +89,30 @@ asa/            matrix, ledger (per-cell per-transport rows), policy engine
   matrix.py     108-cell definition, prune rules, tool targets
   recorder.py   JSONL receipts + id extraction
   rest_client.py sandbox REST + PayPal-Request-Id hooks
-  mcp_client.py stdio MCP session (official `mcp` SDK)
+  mcp_client.py stdio MCP session (@paypal/mcp, version-pinnable via env)
   probe.py      matrix runner: anchor setups, retry shapes, verdicts
   policy.py     DSL v0 engine: compiled policies vs receipted canon
-scripts/        spikes 0-4, harness, fx, atlas/report builders, replay
-policies/       compiled policy artifacts (v0 doc-faithful -> v1 receipt-repaired)
-docs/           evidence ledger (tagged), execution plan, submission text
-atlas/          coverage passes + doc-vs-sandbox delta atlas + artifact JSONs
+scripts/        spikes 0-4b, harness, fx, atlas/report builders, replay,
+                agent probe, sample-receipt subset builder
+policies/       compiled policies (v0 doc-faithful -> v1; v1 = known-hazard
+                documentation per policy_status - the checker, not the LLM,
+                owns every verdict)
+docs/           evidence ledger (tagged), execution plan, submission text,
+                LLM transcripts (docs/llm_transcripts.md)
+atlas/          coverage passes + doc-vs-sandbox delta atlas + policy/replay
+                artifacts + committed sample receipts (atlas/sample_receipts)
+report/         offline single-file judge report (report/index.html)
 ```
+
+Receipts: raw runs are git-ignored (`runs/`), but judges get a committed,
+sanitized subset in `atlas/sample_receipts/` (tokens redacted to length
+markers, sandbox buyer emails normalized) derived by
+`scripts/build_sample_receipts.py`; `.env` is scanned clean in git history
+(env-var names only, no values - see the review-fix commit notes).
 
 ## Rules compliance snapshot (detail in docs/plan.md)
 
-* newly created work, sandbox only, sole-owner check pending (contract review),
+* newly created work, sandbox only,
 * public repo + MIT licence at repo top, run instructions for judges,
 * video < 3 min on YouTube, no third-party music/trademarks,
 * targets lanes: Best Use of PayPal + AI, Best Demo Delivery.
