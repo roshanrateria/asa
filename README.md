@@ -8,6 +8,11 @@ confronts with the receipts.
 Built for the PayPal AI Hackathon ("Build What's Next with PayPal and AI",
 deadline Thu 12 Nov 2026, 12:00 PST). Sandbox only, by construction.
 
+**Judge entry points:** the one-file audit is `report/index.html`
+(offline, renders only what receipts prove); committed sanitized evidence
+lives in `atlas/sample_receipts/`; AI usage is named and bounded in
+`docs/llm_transcripts.md`; the submission text draft is `docs/devpost.md`.
+
 ## Why
 
 Merchants are handing agents refund and payment powers. The existing answers
@@ -19,23 +24,32 @@ over-limit sequence behaves, what untrusted text through supported fields
 does. asa probes first with receipts on every call, and never enforces at
 runtime - it is an audit tool for teams before they ship agents.
 
-Status: **harness live over the invoice anchor**. Spike day verified the
+Status: **audit complete over the invoice anchor**. Spike day verified the
 invoice family end-to-end (create -> record_payment -> record_refund) and
-catalogued SF-1..SF-8 with receipts; the 108-cell matrix then ran to a
-receipt-clean canonical pass (PASS / DRIFT / OBSERVE, artefacts under
-`atlas/`), adding SF-9 (MCP masks application failure as success) and
-SF-10 (hostile-text handling splits across artifacts). Headline finding
-SF-5 (silent drop -> $0 invoice) is replayable live via
-`scripts/replay_findings.py`.
+catalogued SF-1..SF-8 with receipts; the 108-candidate matrix then ran to a
+receipt-clean canonical pass (96 candidates excluded with a receipted reason
+each; 51 REST + 12 MCP executed; PASS / DRIFT / OBSERVE under `atlas/`),
+adding SF-9 (MCP masks application failure as success) and SF-10
+(hostile-text handling splits across artifacts). Headline finding SF-5
+(silent drop -> $0 invoice) is replayable live via `scripts/replay_findings.py`.
 
 ## What AI does (and does not do)
 
 * compile natural-language merchant policy -> schema-validated DSL
-  (compiled v0 artifacts under `policies/compiled/`, human-confirmable),
-* explain counterexamples and propose policy repairs - then a
-  **deterministic checker re-verifies** against receipts: the checker decides,
-  not the LLM (see `scripts/policy_check.py` and the `*_v1.json` repairs),
-* (stretch) agent replay across 2-3 models.
+  (v0 artifacts under `policies/compiled/`, doc-faithful by design),
+* draft the v1 rewrites from the checker's receipted counterexamples -
+  v1 files are declared `policy_status: known-hazard documentation` (they
+  document the carried hazard and its merchant-side mitigation; they do not
+  remove it),
+* a **deterministic checker** (`asa/policy.py` + `scripts/policy_check.py`)
+  decides every PASS/FAIL against receipts - the LLM never decides,
+* **measured agent result** (`atlas/agent_probe.json`, rerunnable via
+  `scripts/agent_probe.py`): the exact masked-failure tool text from the
+  canonical receipts, 3 models x 2 framings - all 6 probes caught the
+  `ok:false` failure in the text (GLM-5.3 Flash Free, Qwen3.8-27B,
+  nvidia/nemotron-3-ultra-550b-a55b); the residual hazard is client-shaped
+  (MCP clients that forward only the structured flag). n=1 per leg: a
+  spot-check, not a benchmark.
 
 ## Architecture (blueprint E5)
 
@@ -70,9 +84,10 @@ python -m venv .venv
 .venv\Scripts\python scripts\spike4_mcp_snapshot.py       # MCP tool list (+ --remote)
 
 # the audit itself
-.venv\Scripts\python scripts\harness_pass1.py --tag pass1d2   # 108-cell matrix (REST + MCP)
-.venv\Scripts\python scripts\policy_check.py --canon pass1d2  # policy/v0 fails -> v1 repairs
-.venv\Scripts\python scripts\replay_findings.py               # headline findings, live
+.venv\Scripts\python scripts\harness_pass1.py --tag pass1d2   # 108-candidate matrix (REST + MCP)
+.venv\Scripts\python scripts\policy_check.py --canon pass1d2  # v0 policies fail vs receipts -> v1 hazard-documentation
+.venv\Scripts\python scripts\replay_findings.py               # headline findings, live (7 bounded calls)
+.venv\Scripts\python scripts\agent_probe.py                   # measured agent result (NVIDIA leg; optional key)
 .venv\Scripts\python scripts\build_atlas.py --canonical pass1d2  # delta tables
 .venv\Scripts\python scripts\build_report.py                  # report\index.html (offline)
 ```
@@ -107,8 +122,9 @@ report/         offline single-file judge report (report/index.html)
 Receipts: raw runs are git-ignored (`runs/`), but judges get a committed,
 sanitized subset in `atlas/sample_receipts/` (tokens redacted to length
 markers, sandbox buyer emails normalized) derived by
-`scripts/build_sample_receipts.py`; `.env` is scanned clean in git history
-(env-var names only, no values - see the review-fix commit notes).
+`scripts/build_sample_receipts.py`. Secret scan pre-push: `.env` was never
+committed - the only historical pickaxe hit for credential names is the
+env-var NAME in `.env.example`.
 
 ## Rules compliance snapshot (detail in docs/plan.md)
 
