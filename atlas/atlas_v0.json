@@ -1,0 +1,304 @@
+{
+ "generated_at": "2026-11-06T12:36:53+00:00",
+ "canonical_pass": "pass1d2",
+ "aux_pass": null,
+ "counts_canon_plus_aux": {
+  "total_cells": 108,
+  "scheduled_rest": 51,
+  "executed_rest": 51,
+  "scheduled_mcp": 12,
+  "executed_mcp": 12,
+  "not_scheduled": {
+   "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+   "echo-refund: refund body has no text field on REST": 3,
+   "mcp-shape-merge: one aggregate retry per cluster": 6,
+   "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 33
+  },
+  "verdicts": {
+   "PASS": 29,
+   "DRIFT": 10,
+   "OBSERVE": 24
+  }
+ },
+ "verdict_pivot_by_transport": {
+  "rest": {
+   "PASS": 20,
+   "DRIFT": 7,
+   "OBSERVE": 24
+  },
+  "mcp-stdio": {
+   "PASS": 9,
+   "DRIFT": 3
+  }
+ },
+ "not_scheduled": {
+  "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+  "echo-refund: refund body has no text field on REST": 3,
+  "mcp-shape-merge: one aggregate retry per cluster": 6,
+  "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 33
+ },
+ "deltas": [
+  {
+   "id": "D-1",
+   "claim": "Retries carrying the same PayPal-Request-Id do not duplicate effects (docs: request-id idempotency, ledger #12).",
+   "probe": "same-header pairs on POST create_order (orders v2) vs POST invoicing invoices / payments / refunds.",
+   "seen": "orders v2 honors it - 201 then 200-return-existing with the SAME order id, still true ~49 min later. The invoicing family ignores it on every endpoint: same-header create pairs -> two distinct INV2 invoices [201,201] x3 flavor; same-header payments/refunds -> two distinct EXTR records [200,200].",
+   "status": "CONFIRMED-DELTA (3 of 4 money endpoints unidempotent)",
+   "cites": "spike1 12 receipts (2 runs); atlas cells 002/005/008 + 011/014/017-026; smoke-retry-shapes receipts"
+  },
+  {
+   "id": "D-2",
+   "claim": "Invoice create validates its money fields (docs: schema'd items/line_items).",
+   "probe": "create_invoice with the mis-keyed `line_items` body.",
+   "seen": "201 Created, visually valid object - but wire amount/due = 0.00. Money silently zeroed; downstream refunds then 422 INVALID_REFUND_AMOUNT against the object's own MARKED_AS_PAID state.",
+   "status": "CONFIRMED-DELTA (silent schema lenience)",
+   "cites": "spike3g/3h/3b-3f receipts; SF-5 chain"
+  },
+  {
+   "id": "D-3",
+   "claim": "The toolkit advertises the full invoice money lifecycle (record_payment_for_invoice / record_refund_for_invoice).",
+   "probe": "MCP stdio tool surface snapshot + harness MCP phase.",
+   "seen": "28 tools via stdio; the two record_* tools are absent, so an agent on PayPal's own MCP server cannot record payments/refunds on invoices - the lifecycle stops at create/send.",
+   "status": "CONFIRMED-DELTA (surface narrower than advertised)",
+   "cites": "runs/mcp_tools_snapshot_stdio.json; harness mcp-tool-absent bucket (33 cells); SF-8"
+  },
+  {
+   "id": "D-4",
+   "claim": "A tool call reports its failure through the structured error flag (MCP isError).",
+   "probe": "MCP create_invoice with API-rejecting hostile note (406-class).",
+   "seen": "isError=false; the failure exists only inside result TEXT ({\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}) - structured success lies about application failure.",
+   "status": "CONFIRMED-DELTA (success flag masks failure)",
+   "cites": "harness pass1b seq 189/196; pass1c seq 183/190; SF-9"
+  },
+  {
+   "id": "D-5",
+   "claim": "Input validation rejects hostile text with a debuggable API error.",
+   "probe": "<script> payload in invoice note / payment note; prompt-injection payload same fields.",
+   "seen": "script payload: block status/artifact splits across runs (406+empty body in pass1; 403+WAF HTML page in pass1b/1c) - see Echo matrix below. prompt payload: accepted everywhere, stored VERBATIM (echo=reflected-verbatim).",
+   "status": "CONFIRMED-DELTA (three artifacts, no machine-readable rejection)",
+   "cites": "runs/harness-pass1{.jsonl,b,c} cells 082/088/094; echo rows 085/091/097; SF-10"
+  },
+  {
+   "id": "D-6",
+   "claim": "Geo/currency business rules surface as 4xx app errors (send to India-recipient personal sandbox).",
+   "probe": "send_invoice to INR-blocked Personal account vs non-India recipient.",
+   "seen": "406 MEDIA_TYPE_NOT_ACCEPTABLE with an EMPTY body wrapping the business rule - a content-negotiation status carrying a currency policy.",
+   "status": "CONFIRMED-DELTA (wrong HTTP semantics for a business rule)",
+   "cites": "spike3 v1 vs spike3d receipts; SF-3"
+  },
+  {
+   "id": "D-7",
+   "claim": "Refund method enum is as documented.",
+   "probe": "record_refund with CARD / EXTERNAL / CASH / BANK_TRANSFER / PAYPAL.",
+   "seen": "CARD and EXTERNAL -> 400 INVALID_REFUND_METHOD; 2 of 5 documented-enumeration methods disagree with the wire.",
+   "status": "CONFIRMED-DELTA (enum narrower than docs)",
+   "cites": "spike3e receipts; SF-4"
+  },
+  {
+   "id": "D-8",
+   "claim": "PayPal-Mock-Response negative testing works on invocations.",
+   "probe": "not exercised in the v0 matrix (mock_header_used=false on every receipt by design).",
+   "seen": "n/a - documented affordance, left for a later seeded rerun.",
+   "status": "NOT EXERCISED (scope v0, honest exclusion)",
+   "cites": "-"
+  }
+ ],
+ "echo_matrix": [
+  {
+   "pass": "pass1d2",
+   "cell": "82",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1d2",
+   "cell": "88",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1d2",
+   "cell": "94",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1d2",
+   "cell": "82",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1d2",
+   "cell": "88",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1",
+   "cell": "82",
+   "transport": "rest",
+   "status": 406,
+   "artifact": "empty-body"
+  },
+  {
+   "pass": "pass1",
+   "cell": "88",
+   "transport": "rest",
+   "status": 406,
+   "artifact": "empty-body"
+  },
+  {
+   "pass": "pass1",
+   "cell": "94",
+   "transport": "rest",
+   "status": 406,
+   "artifact": "empty-body"
+  },
+  {
+   "pass": "pass1",
+   "cell": "82",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1",
+   "cell": "88",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1b",
+   "cell": "82",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1b",
+   "cell": "88",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1b",
+   "cell": "94",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1b",
+   "cell": "82",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1b",
+   "cell": "88",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1c",
+   "cell": "82",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1c",
+   "cell": "88",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1c",
+   "cell": "94",
+   "transport": "rest",
+   "status": 403,
+   "artifact": "waf-html-page"
+  },
+  {
+   "pass": "pass1c",
+   "cell": "82",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  },
+  {
+   "pass": "pass1c",
+   "cell": "88",
+   "transport": "mcp-stdio",
+   "status": 200,
+   "artifact": "masked-ok:false-text"
+  }
+ ],
+ "lineage_counts": {
+  "pass1": {
+   "total_cells": 108,
+   "scheduled_rest": 39,
+   "executed_rest": 39,
+   "scheduled_mcp": 12,
+   "executed_mcp": 12,
+   "not_scheduled": {
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+    "echo-refund: refund body has no text field on REST": 3,
+    "mcp-shape-merge: one aggregate retry per cluster": 24,
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 72
+   },
+   "verdicts": {
+    "PASS": 27,
+    "DRIFT": 9,
+    "OBSERVE": 15
+   }
+  },
+  "pass1b": {
+   "total_cells": 108,
+   "scheduled_rest": 39,
+   "executed_rest": 39,
+   "scheduled_mcp": 12,
+   "executed_mcp": 12,
+   "not_scheduled": {
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+    "echo-refund: refund body has no text field on REST": 3,
+    "mcp-shape-merge: one aggregate retry per cluster": 6,
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 33
+   },
+   "verdicts": {
+    "PASS": 29,
+    "DRIFT": 7,
+    "OBSERVE": 15
+   }
+  },
+  "pass1c": {
+   "total_cells": 108,
+   "scheduled_rest": 39,
+   "executed_rest": 37,
+   "scheduled_mcp": 12,
+   "executed_mcp": 12,
+   "not_scheduled": {
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+    "echo-refund: refund body has no text field on REST": 3,
+    "mcp-shape-merge: one aggregate retry per cluster": 6,
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 33
+   },
+   "verdicts": {
+    "PASS": 25,
+    "DRIFT": 7,
+    "OBSERVE": 19
+   }
+  }
+ }
+}

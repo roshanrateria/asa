@@ -36,11 +36,11 @@ target: Devpost submitted by **Thu 12 Nov ~10:00 IST** (≈ 7 h buffer).
 | Day | Work | Gate |
 |---|---|---|
 | Fri 6 | scaffold + spikes 0-3 (+ spike4 if node exists) | G-SPIKE: money path or invoice-only slice |
-| Sat 7 | harness pass 1 over the matrix (pruned cells, receipts) | coverage baseline **DONE**: pass1 (39+12 executed, verdict plumbing bugs found in its own receipts), pass1b (extractor fixed), pass1c = citable pass 37/39 REST + 12/12 MCP, PASS 25 / DRIFT 7 / OBSERVE 19; cells 16/17 transient network resets re-executed in pass1c-fx; SF-9/SF-10 surfaced; atlas/coverage_pass1{b,c,c-fx}*
-| Sun 8 | pass 1.1 fixes; doc-vs-sandbox deltas table (the atlas) | atlas v0 |
-| Mon 9 | state model + BFS depth<=6; first counterexample | G-FINDING: >=1 replayable finding, or fallback |
-| Tue 10 | LLM policy compile + repair loop + replay + HTML report | **feature freeze** (moved up = slip cushion) |
-| Wed 11 | clean full rerun (seeded, logged), README polish, record + upload video, Devpost text | video done |
+| Sat 7 | harness pass 1 over the matrix (pruned cells, receipts) | coverage baseline **DONE**: pass1 (verdict plumbing bug found in its own receipts, superseded), pass1b (extractor fixed), pass1c clean 37/39 REST + 12/12 MCP; cells 16/17 transient network resets re-executed in pass1c-fx; SF-9/SF-10 surfaced |
+| Sun 8 | pass 1.1 fixes; doc-vs-sandbox deltas table (the atlas) | atlas v0 **DONE**: ledger re-keyed to per-(cell,transport) rows (the dual-transport data loss found in pass1/1b/1c); canonical rerun `pass1d2` = 51/51 REST + 12/12 MCP, PASS 29/DRIFT 10/OBSERVE 24; `atlas/atlas_v0.md+json` builds D-1..D-8 out of receipts + spike4b closes unknown E (remote /http 404, /sse silent) |
+| Mon 9 | state model + BFS depth<=6; first counterexample | G-FINDING **DONE (replayable route)**: `scripts/replay_findings.py` re-executes SF-5/SF-1x/SF-10/SF-9 live, 4/4 REPLAYED receipted; BFS-depth search dropped with documented not-scheduled reason (its net-new abusive sequences are already covered by the four abuse classes + replay artifacts; the spend went to the Tue cycle instead) |
+| Tue 10 | LLM policy compile + repair loop + replay + HTML report | **feature freeze**: `asa/policy.py` engine; `policies/compiled/*_v0.json` FAIL with receipted counterexamples -> `*_v1.json` receipt-repaired (PASS / standing-upstream-fail documented); `report/index.html` single offline file; README + Devpost text frozen |
+| Wed 11 | clean full rerun (seeded, logged), README polish, record + upload video, Devpost text | video done (Human task); optional `--tag final` rerun if the deadline allows |
 | Thu 12 | submit by ~10:00 IST | submitted |
 
 Fallback chain, pre-decided:

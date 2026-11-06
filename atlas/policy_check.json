@@ -1,0 +1,82 @@
+{
+ "canon": "pass1d2",
+ "checks": [
+  {
+   "policy": "inv2_idempotency_v0.json",
+   "overall": "FAIL",
+   "assertions": [
+    {
+     "kind": "idempotent_retries",
+     "verdict": "FAIL",
+     "note": "same-header retries did NOT collapse ids",
+     "counterexamples": [
+      "cell 002 CREATE/DRAFT: DRIFT (same-header pair ids DIVERGED [201, 201] sent=['e3cbeb12', 'e3cbeb12'] echoed=[None, None])",
+      "cell 005 CREATE/AUTHORIZED_UNCAPTURED: DRIFT (same-header pair ids DIVERGED [201, 201] sent=['1fef7018', '1fef7018'] echoed=[None, None])",
+      "cell 008 CREATE/CAPTURED: DRIFT (same-header pair ids DIVERGED [201, 201] sent=['f05c8a66', 'f05c8a66'] echoed=[None, None])",
+      "cell 011 RECORD/DRAFT: OBSERVE (payment same-header [200, 200] ids_equal=False ids=['EXTR-8R073423NB855212N', 'EXTR-73W807)",
+      "cell 014 RECORD/AUTHORIZED_UNCAPTURED: OBSERVE (payment same-header [200, 200] ids_equal=False ids=['EXTR-4AB00345AN347672F', 'EXTR-1X8451)",
+      "cell 017 RECORD/CAPTURED: OBSERVE (payment same-header [200, 200] ids_equal=False ids=['EXTR-9UK27900DH1040544', 'EXTR-1Y5721)",
+      "cell 026 REFUND/CAPTURED: OBSERVE (refund same-header [200, 200] ids_equal=False ids=['EXTR-1H295267XN648274U', 'EXTR-3S54039)"
+     ]
+    }
+   ]
+  },
+  {
+   "policy": "inv2_idempotency_v1.json",
+   "overall": "PASS",
+   "assertions": [
+    {
+     "kind": "duplicate_retry_observed",
+     "verdict": "PASS",
+     "note": "same-header retries duplicate objects on every executed row (hazard carried)",
+     "counterexamples": []
+    }
+   ]
+  },
+  {
+   "policy": "mcp_money_lifecycle_v0.json",
+   "overall": "FAIL",
+   "assertions": [
+    {
+     "kind": "tool_available",
+     "verdict": "FAIL",
+     "note": "tools absent from the MCP stdio surface",
+     "counterexamples": [
+      "record_payment_for_invoice",
+      "record_refund_for_invoice"
+     ]
+    },
+    {
+     "kind": "no_masked_failures",
+     "verdict": "FAIL",
+     "note": "isError=false while result text carries ok:false (agent would act on failure)",
+     "counterexamples": [
+      "cell 082: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {\"ok\":false,\"status\":406,\"code\":\"",
+      "cell 088: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {\"ok\":false,\"status\":406,\"code\":\""
+     ]
+    }
+   ]
+  },
+  {
+   "policy": "mcp_money_lifecycle_v1.json",
+   "overall": "FAIL",
+   "assertions": [
+    {
+     "kind": "tool_available",
+     "verdict": "PASS",
+     "note": "all required tools present",
+     "counterexamples": []
+    },
+    {
+     "kind": "no_masked_failures",
+     "verdict": "FAIL",
+     "note": "isError=false while result text carries ok:false (agent would act on failure)",
+     "counterexamples": [
+      "cell 082: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {\"ok\":false,\"status\":406,\"code\":\"",
+      "cell 088: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {\"ok\":false,\"status\":406,\"code\":\""
+     ]
+    }
+   ]
+  }
+ ]
+}

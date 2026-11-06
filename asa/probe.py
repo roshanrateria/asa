@@ -59,43 +59,71 @@ class RateLimitAbort(Exception):
 
 @dataclass
 class Ledger:
+    """Rows are kept PER (cell, transport).
+
+    pass1d fix: the MCP phase used to overwrite the REST row of CREATE cells
+    (schedule() replaced rows[cell_id]), so the atlas JSON lost the REST
+    record exactly for the cells with REST-vs-MCP semantics. A cell executed
+    on both transports now legitimately holds two rows.
+    """
+
     total: int
-    rows: dict = field(default_factory=dict)
+    rows: dict = field(default_factory=dict)         # cell_id -> [row, ...]
     not_scheduled: dict = field(default_factory=dict)   # reason -> [cell ids]
     _ns_seen: set = field(default_factory=set)
 
-    def schedule(self, cell, transport: str) -> None:
-        self.rows[cell.cell_id] = {"cell": cell, "transport": transport,
-                                   "attempted": False, "executed": False,
-                                   "statuses": [], "notes": [], "verdict": None}
+    def _row(self, cell_id: int, transport: str | None) -> dict | None:
+        for r in self.rows.get(cell_id, []):
+            if r["transport"] == transport:
+                return r
+        return None
 
-    def not_sched(self, cell, reason: str) -> None:
-        """First reason wins; later reasons are appended to the row notes.
+    def schedule(self, cell, transport: str) -> None:
+        existing = self._row(cell.cell_id, transport)
+        if existing is not None:
+            existing["cell"] = cell
+            existing["attempted"] = False
+            existing["executed"] = False
+            existing["statuses"] = []
+            existing["verdict"] = None
+            return
+        self.rows.setdefault(cell.cell_id, []).append(
+            {"cell": cell, "transport": transport, "attempted": False,
+             "executed": False, "statuses": [], "notes": [], "verdict": None})
+
+    def not_sched(self, cell, reason: str, transport: str | None = None) -> None:
+        """Cell-level bucket membership (first reason wins); a reason later
+        re-observed on another transport only appends its note. A bucketed
+        cell gets a pseudo-row (transport None) explaining the exclusion.
 
         (pass1 fix: the MCP phase used to double-bucket cells already
         bucketed in the REST phase, inflating reason counts.)"""
         if cell.cell_id in self._ns_seen:
-            existing = self.rows.get(cell.cell_id)
-            if existing is not None and reason not in existing["notes"]:
-                existing["notes"].append(reason)
+            for r in self.rows.get(cell.cell_id, []):
+                if reason not in r["notes"]:
+                    r["notes"].append(reason)
             return
         self._ns_seen.add(cell.cell_id)
         self.not_scheduled.setdefault(reason, []).append(cell.cell_id)
-        self.rows.setdefault(cell.cell_id, {"cell": cell, "transport": None,
-                                            "attempted": False, "executed": False,
-                                            "statuses": [], "notes": [reason],
-                                            "verdict": "not-scheduled"})
+        self.rows.setdefault(cell.cell_id, []).append(
+            {"cell": cell, "transport": transport, "attempted": False,
+             "executed": False, "statuses": [], "notes": [reason],
+             "verdict": "not-scheduled"})
 
     def bail_remaining(self, transport: str, reason: str) -> None:
-        for r in self.rows.values():
-            if r["transport"] == transport and not r["attempted"]:
-                self.not_scheduled.setdefault(reason, []).append(r["cell"].cell_id)
-                r["transport"] = None
-                r["notes"] = [reason]
+        for lst in self.rows.values():
+            for r in lst:
+                if r["transport"] == transport and not r["attempted"]:
+                    self.not_scheduled.setdefault(reason, []).append(r["cell"].cell_id)
+                    r["transport"] = None
+                    r["notes"] = [reason]
 
     def finish_row(self, cell_id: int, attempted: bool, executed: bool,
-                   statuses: list[int], note: str, verdict: str | None) -> None:
-        r = self.rows[cell_id]
+                   statuses: list[int], note: str, verdict: str | None,
+                   transport: str) -> None:
+        r = self._row(cell_id, transport)
+        if r is None:            # defensive: write to the newest row
+            r = self.rows.get(cell_id, [{}])[-1]
         r["attempted"] = attempted
         r["executed"] = executed
         r["statuses"] = statuses
@@ -106,17 +134,20 @@ class Ledger:
 
     def counts(self) -> dict:
         def n(transport, key):
-            return sum(1 for r in self.rows.values()
+            return sum(1 for lst in self.rows.values() for r in lst
                        if r["transport"] == transport and r[key])
         verdicts: dict[str, int] = {}
-        for r in self.rows.values():
-            if r["verdict"] in ("PASS", "DRIFT", "OBSERVE"):
-                verdicts[r["verdict"]] = verdicts.get(r["verdict"], 0) + 1
+        for lst in self.rows.values():
+            for r in lst:
+                if r["verdict"] in ("PASS", "DRIFT", "OBSERVE"):
+                    verdicts[r["verdict"]] = verdicts.get(r["verdict"], 0) + 1
         return {
             "total_cells": self.total,
-            "scheduled_rest": sum(1 for r in self.rows.values() if r["transport"] == "rest"),
+            "scheduled_rest": sum(1 for lst in self.rows.values() for r in lst
+                                  if r["transport"] == "rest"),
             "executed_rest": n("rest", "executed"),
-            "scheduled_mcp": sum(1 for r in self.rows.values() if r["transport"] == "mcp-stdio"),
+            "scheduled_mcp": sum(1 for lst in self.rows.values() for r in lst
+                                 if r["transport"] == "mcp-stdio"),
             "executed_mcp": n("mcp-stdio", "executed"),
             "not_scheduled": {k: len(v) for k, v in self.not_scheduled.items()},
             "verdicts": verdicts,
@@ -347,7 +378,10 @@ def run_rest_phase(cfg: Config, cells, ledger: Ledger, rec) -> None:
     try:
         for cell in cells:
             if not apply_not_sched(cell, ledger):
-                print(f"[{cell.cell_id:03d}] NOT-SCHED ({ledger.rows[cell.cell_id]['notes'][0][:60]})")
+                # first-reason-wins bucket membership; print the bucket name
+                first = next((k for k, ids in ledger.not_scheduled.items()
+                              if cell.cell_id in ids), "<unbucketed>")
+                print(f"[{cell.cell_id:03d}] NOT-SCHED ({first[:60]})")
                 continue
             ledger.schedule(cell, "rest")
             try:
@@ -356,7 +390,7 @@ def run_rest_phase(cfg: Config, cells, ledger: Ledger, rec) -> None:
             except Exception as exc:  # setup failures recorded, never silent
                 ledger.finish_row(cell.cell_id, attempted=False, executed=False,
                                   statuses=[], note=f"setup-error: {exc!r}"[:160],
-                                  verdict="OBSERVE")
+                                  verdict="OBSERVE", transport="rest")
                 print(f"[{cell.cell_id:03d}] SETUP-FAIL {exc!r}"[:140])
                 continue
 
@@ -406,14 +440,16 @@ def run_rest_phase(cfg: Config, cells, ledger: Ledger, rec) -> None:
                     verdict = "DRIFT" if echo_note == "reflected-verbatim" else verdict
 
                 ledger.finish_row(cell.cell_id, attempted=True, executed=True,
-                                  statuses=r_statuses, note=note, verdict=verdict)
+                                  statuses=r_statuses, note=note, verdict=verdict,
+                                  transport="rest")
                 print(f"[{cell.cell_id:03d}] {cell.abuse[:2]}-{cell.effect[:4]}-"
                       f"{cell.precondition[:3]}-{cell.shape[:6]} -> {r_statuses} "
                       f"{verdict} | {note[:88]}")
             except RateLimitAbort:
                 ledger.finish_row(cell.cell_id, attempted=True, executed=False,
                                   statuses=[o["status"] for o in outcomes],
-                                  note="429 mid-cell", verdict=None)
+                                  note="429 mid-cell", verdict=None,
+                                  transport="rest")
                 raise
     finally:
         rc.close()

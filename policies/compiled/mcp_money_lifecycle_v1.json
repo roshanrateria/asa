@@ -1,0 +1,19 @@
+{
+ "policy_id": "mcp_money_lifecycle_v1",
+ "version": 1,
+ "family": "mcp-surface",
+ "compiled_by": "asa/LLM compile cycle v1 (receipt-repaired)",
+ "repair_of": "mcp_money_lifecycle_v0.json",
+ "repair_trigger": "receipts: MCP stdio snapshot lacks record_payment_for_invoice/record_refund_for_invoice (SF-8, 33 cells bucketed mcp-tool-absent); pass1b/1c cells 082/088: isError=false while result text carries {\"ok\":false,\"status\":406} (SF-9)",
+ "asserts": [
+  {
+   "kind": "tool_available",
+   "tools": ["create_invoice", "get_invoice", "send_invoice", "list_transactions"]
+  },
+  {
+   "kind": "no_masked_failures",
+   "expect": "STANDING-FAIL on the 2026-11-06+ sandbox: caller-side mitigation REQUIRED - agents must string-verify result texts for ok:false before acting on a success flag; upstream fix needed from PayPal (structured error propagation)"
+  }
+ ],
+ "notes": "repair = narrowing to the real tool surface + a caller-side mitigation for the masking; the masking finding itself is NOT repaired (upstream). Recorded money operations must route via REST endpoints guarded by the idempotency_v1 policy."
+}

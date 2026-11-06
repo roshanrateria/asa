@@ -1,0 +1,114 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>asa - Agent Surface Audit</title><style>
+    :root { --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc;
+            --pass:#047857; --drift:#b45309; --obs:#4338ca; --fail:#b91c1c; }
+    * { box-sizing:border-box; }
+    body { font: 15px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;
+           color:var(--ink); background:var(--bg); margin:0; }
+    main { max-width:1040px; margin:0 auto; padding:28px 20px 64px; }
+    h1 { font-size:26px; margin:0 0 4px; }
+    h2 { font-size:18px; margin:34px 0 8px; padding-bottom:4px;
+         border-bottom:1px solid var(--line); }
+    .sub { color:var(--muted); font-size:13.5px; }
+    .kpi { display:inline-block; background:#fff; border:1px solid var(--line);
+           border-radius:10px; padding:10px 16px; margin:14px 10px 0 0;
+           font-size:14px; }
+    .kpi b { font-size:20px; display:block; }
+    table { border-collapse:collapse; width:100%; background:#fff;
+            border:1px solid var(--line); border-radius:8px; font-size:13.5px; }
+    th { text-align:left; background:#f1f5f9; padding:7px 9px;
+         border-bottom:1px solid var(--line); font-weight:600; }
+    td { padding:6px 9px; border-bottom:1px solid var(--line);
+         vertical-align:top; }
+    tr:last-child td { border-bottom:0; }
+    code, pre { font-family:ui-monospace,Consolas,monospace; font-size:12.5px; }
+    pre { background:#0f172a; color:#e2e8f0; padding:12px 14px;
+          border-radius:8px; overflow:auto; }
+    .verdict { font-weight:700; }
+    .vPASS { color:var(--pass); } .vDRIFT,.vFAIL { color:var(--drift); }
+    .vOBSERVE,.vOPEN { color:var(--obs); } .vREPLAYED { color:var(--pass); }
+    .vCHANGED { color:var(--fail); }
+    li { margin:3px 0; }
+    .foot { color:var(--muted); font-size:12.5px; margin-top:40px;
+            border-top:1px solid var(--line); padding-top:10px; }
+    </style></head><body><main>
+<h1>Agent Surface Audit (asa)</h1>
+<div class="sub">black-box audit of PayPal's agent surface (MCP @paypal/mcp + REST
+invoice family), sandbox-only; every claim below cites receipts under <code>runs/</code>.
+Canon pass <b>pass1d2</b>
+ (aux None). Generated 2026-11-06 12:36 UTC.</div>
+<span class='kpi'><b>108</b>candidate cells</span><span class='kpi'><b>51</b>REST executed</span><span class='kpi'><b>12</b>MCP executed</span><span class='kpi'><b>10</b>DRIFT (deltas)</span><span class='kpi'><b>8</b>receipted deltas D-1..</span>
+
+<h2>Doc-vs-sandbox deltas (the atlas)</h2>
+<table><tr><th>id</th><th>documented expectation</th><th>observed on sandbox</th><th>status</th><th>cites</th></tr>
+<tr><td><b>D-1</b></td><td>Retries carrying the same PayPal-Request-Id do not duplicate effects (docs: request-id idempotency, ledger #12).</td><td>orders v2 honors it - 201 then 200-return-existing with the SAME order id, still true ~49 min later. The invoicing family ignores it on every endpoint: same-header create pairs -&gt; two distinct INV2 invoices [201,201] x3 flavor; same-header payments/refunds -&gt; two distinct EXTR records [200,200].</td><td>CONFIRMED-DELTA (3 of 4 money endpoints unidempotent)</td><td class='sub'>spike1 12 receipts (2 runs); atlas cells 002/005/008 + 011/014/017-026; smoke-retry-shapes receipts</td></tr>
+<tr><td><b>D-2</b></td><td>Invoice create validates its money fields (docs: schema&#x27;d items/line_items).</td><td>201 Created, visually valid object - but wire amount/due = 0.00. Money silently zeroed; downstream refunds then 422 INVALID_REFUND_AMOUNT against the object&#x27;s own MARKED_AS_PAID state.</td><td>CONFIRMED-DELTA (silent schema lenience)</td><td class='sub'>spike3g/3h/3b-3f receipts; SF-5 chain</td></tr>
+<tr><td><b>D-3</b></td><td>The toolkit advertises the full invoice money lifecycle (record_payment_for_invoice / record_refund_for_invoice).</td><td>28 tools via stdio; the two record_* tools are absent, so an agent on PayPal&#x27;s own MCP server cannot record payments/refunds on invoices - the lifecycle stops at create/send.</td><td>CONFIRMED-DELTA (surface narrower than advertised)</td><td class='sub'>runs/mcp_tools_snapshot_stdio.json; harness mcp-tool-absent bucket (33 cells); SF-8</td></tr>
+<tr><td><b>D-4</b></td><td>A tool call reports its failure through the structured error flag (MCP isError).</td><td>isError=false; the failure exists only inside result TEXT ({&quot;ok&quot;:false,&quot;status&quot;:406,&quot;code&quot;:&quot;PAYPAL_API_HTTP_ERROR&quot;,&quot;message&quot;:&quot;Unknown error&quot;}) - structured success lies about application failure.</td><td>CONFIRMED-DELTA (success flag masks failure)</td><td class='sub'>harness pass1b seq 189/196; pass1c seq 183/190; SF-9</td></tr>
+<tr><td><b>D-5</b></td><td>Input validation rejects hostile text with a debuggable API error.</td><td>script payload: block status/artifact splits across runs (406+empty body in pass1; 403+WAF HTML page in pass1b/1c) - see Echo matrix below. prompt payload: accepted everywhere, stored VERBATIM (echo=reflected-verbatim).</td><td>CONFIRMED-DELTA (three artifacts, no machine-readable rejection)</td><td class='sub'>runs/harness-pass1{.jsonl,b,c} cells 082/088/094; echo rows 085/091/097; SF-10</td></tr>
+<tr><td><b>D-6</b></td><td>Geo/currency business rules surface as 4xx app errors (send to India-recipient personal sandbox).</td><td>406 MEDIA_TYPE_NOT_ACCEPTABLE with an EMPTY body wrapping the business rule - a content-negotiation status carrying a currency policy.</td><td>CONFIRMED-DELTA (wrong HTTP semantics for a business rule)</td><td class='sub'>spike3 v1 vs spike3d receipts; SF-3</td></tr>
+<tr><td><b>D-7</b></td><td>Refund method enum is as documented.</td><td>CARD and EXTERNAL -&gt; 400 INVALID_REFUND_METHOD; 2 of 5 documented-enumeration methods disagree with the wire.</td><td>CONFIRMED-DELTA (enum narrower than docs)</td><td class='sub'>spike3e receipts; SF-4</td></tr>
+<tr><td><b>D-8</b></td><td>PayPal-Mock-Response negative testing works on invocations.</td><td>n/a - documented affordance, left for a later seeded rerun.</td><td>NOT EXERCISED (scope v0, honest exclusion)</td><td class='sub'>-</td></tr>
+</table>
+<h2>Hostile-text artifact matrix (same payload, across passes/channels)</h2>
+<table><tr><th>pass</th><th>cell</th><th>channel</th><th>status</th><th>artifact</th></tr>
+<tr><td>pass1d2</td><td>82</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1d2</td><td>88</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1d2</td><td>94</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1d2</td><td>82</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1d2</td><td>88</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1</td><td>82</td><td>rest</td><td>406</td><td>empty-body</td></tr>
+<tr><td>pass1</td><td>88</td><td>rest</td><td>406</td><td>empty-body</td></tr>
+<tr><td>pass1</td><td>94</td><td>rest</td><td>406</td><td>empty-body</td></tr>
+<tr><td>pass1</td><td>82</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1</td><td>88</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1b</td><td>82</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1b</td><td>88</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1b</td><td>94</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1b</td><td>82</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1b</td><td>88</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1c</td><td>82</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1c</td><td>88</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1c</td><td>94</td><td>rest</td><td>403</td><td>waf-html-page</td></tr>
+<tr><td>pass1c</td><td>82</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+<tr><td>pass1c</td><td>88</td><td>mcp-stdio</td><td>200</td><td>masked-ok:false-text</td></tr>
+</table>
+<h2>Policy compile + repair loop (compiled policies vs receipts)</h2>
+<table><tr><th>policy</th><th>overall</th><th>assertions</th></tr>
+<tr><td><code>inv2_idempotency_v0.json</code></td><td><span class="verdict vFAIL">FAIL</span></td><td><span class="verdict vFAIL">FAIL</span> idempotent_retries - same-header retries did NOT collapse ids<span class='sub'> (7 counterexamples: cell 002 CREATE/DRAFT: DRIFT (same-header pair ids DIVERGED [201, 201] sent=[&#x27;e3cbeb12&#x27;, &#x27;e3cbeb12&#x27;] echoed=[None, None]); cell 005 CREATE/AUTHORIZED_UNCAPTURED: DRIFT (same-header pair ids DIVERGED [201, 201] sent=[&#x27;1fef7018&#x27;, &#x27;1fef7018&#x27;] echoed=[None, None]))</span></td></tr>
+<tr><td><code>inv2_idempotency_v1.json</code></td><td><span class="verdict vPASS">PASS</span></td><td><span class="verdict vPASS">PASS</span> duplicate_retry_observed - same-header retries duplicate objects on every executed row (hazard carried)</td></tr>
+<tr><td><code>mcp_money_lifecycle_v0.json</code></td><td><span class="verdict vFAIL">FAIL</span></td><td><span class="verdict vFAIL">FAIL</span> tool_available - tools absent from the MCP stdio surface<span class='sub'> (2 counterexamples: record_payment_for_invoice; record_refund_for_invoice)</span><br><span class="verdict vFAIL">FAIL</span> no_masked_failures - isError=false while result text carries ok:false (agent would act on failure)<span class='sub'> (2 counterexamples: cell 082: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {&quot;ok&quot;:false,&quot;status&quot;:406,&quot;code&quot;:&quot;; cell 088: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {&quot;ok&quot;:false,&quot;status&quot;:406,&quot;code&quot;:&quot;)</span></td></tr>
+<tr><td><code>mcp_money_lifecycle_v1.json</code></td><td><span class="verdict vFAIL">FAIL</span></td><td><span class="verdict vPASS">PASS</span> tool_available - all required tools present<br><span class="verdict vFAIL">FAIL</span> no_masked_failures - isError=false while result text carries ok:false (agent would act on failure)<span class='sub'> (2 counterexamples: cell 082: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {&quot;ok&quot;:false,&quot;status&quot;:406,&quot;code&quot;:&quot;; cell 088: mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {&quot;ok&quot;:false,&quot;status&quot;:406,&quot;code&quot;:&quot;)</span></td></tr>
+</table>
+<div class='sub'>The v0 policies are doc-faithful and FAIL with receipted counterexamples; the v1 repairs are scope-shrunk to receipted behavior. That fail &rarr; repair cycle is the audit's core loop.</div>
+<h2>Replayable findings (re-executed live today)</h2>
+<table><tr><th>finding</th><th>verdict</th><th>detail</th></tr>
+<tr><td><b>R1 (SF-5)</b> mis-keyed money field silently zeroed</td><td><span class="verdict vREPLAYED">REPLAYED</span></td><td class='sub'>created INV2-7H2B-NFTE-NR7L-8TG5, amount paths at 0.00: [&#x27;$.amount&#x27;, &#x27;$.amount.breakdown.discount.invoice_discount.amount&#x27;, &#x27;$.due_amount&#x27;] (all amount paths: [(&#x27;$.amount&#x27;, &#x27;0.00&#x27;), (&#x27;$.amount.breakdown.discount.invoice_discount.amount&#x27;, &#x27;0.00&#x27;), (&#x27;$.due_amount&#x27;, &#x27;0.00&#x27;)])</td></tr>
+<tr><td><b>R2 (SF-1x)</b> invoicing ignores PayPal-Request-Id</td><td><span class="verdict vREPLAYED">REPLAYED</span></td><td class='sub'>same header -&gt; 2 distinct invoices</td></tr>
+<tr><td><b>R3 (SF-10)</b> script payload artifact split (406-empty / 403-waf / stored)</td><td><span class="verdict vREPLAYED">REPLAYED</span></td><td class='sub'>status 406 artifact=empty-body</td></tr>
+<tr><td><b>R4 (SF-9)</b> MCP tool result masks app failure as success</td><td><span class="verdict vREPLAYED">REPLAYED</span></td><td class='sub'>ok_flag=True, text_carries_ok_false=True</td></tr>
+</table>
+<h2>Honest exclusions (never silence)</h2><ul>
+<li><b>54</b> cells - single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)</li>
+<li><b>3</b> cells - echo-refund: refund body has no text field on REST</li>
+<li><b>6</b> cells - mcp-shape-merge: one aggregate retry per cluster</li>
+<li><b>33</b> cells - mcp-tool-absent: SF-8 (record/refund not exposed by MCP)</li>
+</ul>
+<h2>Reproducibility (sandbox-safe commands)</h2>
+<pre>
+python scripts\harness_pass1.py --tag pass1d2     # full 108-cell matrix (REST + MCP phases)
+python scripts\fx_cells.py --tag pass1d2-fx --cells 999   # failed-cell follow-ups (if any 429/net)
+python scripts\policy_check.py --canon pass1d2    # policy compile/repair verdicts
+python scripts\replay_findings.py                 # re-execute headline findings live
+python scripts\build_atlas.py --canonical pass1d2 # this atlas's inputs (deltas JSON/MD)
+python scripts\build_report.py                    # this file
+</pre>
+All commands require sandbox credentials in <code>.env</code> - <code>asa/config.py</code>
+hard-refuses non-sandbox environments; receipts land in <code>runs/</code>.
+
+<div class="foot">asa (Agent Surface Audit) - lab tool, sandbox-only.
+Receipts: <code>runs/</code>; ledger: <code>docs/evidence.md</code> (SF-1..SF-10);
+atlas: <code>atlas/</code>. Verdicts are labelled PASS / DRIFT / OBSERVE; never
+"bug" - behavior deltas vs documented contract.</div>
+</main></body></html>

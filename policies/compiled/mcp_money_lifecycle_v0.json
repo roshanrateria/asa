@@ -1,0 +1,20 @@
+{
+ "policy_id": "mcp_money_lifecycle_v0",
+ "version": 0,
+ "family": "mcp-surface",
+ "compiled_by": "asa/LLM compile cycle v0 (toolkit-faithful)",
+ "source": "github.com/paypal/agent-toolkit README advertises record_payment_for_invoice / record_refund_for_invoice; MCP structured erroring is standard.",
+ "asserts": [
+  {
+   "kind": "tool_available",
+   "tools": ["create_invoice", "get_invoice", "send_invoice",
+             "record_payment_for_invoice", "record_refund_for_invoice",
+             "list_transactions"]
+  },
+  {
+   "kind": "no_masked_failures",
+   "expect": "an MCP tool result with isError=false must not carry an application-level failure inside its text"
+  }
+ ],
+ "notes": "v0 taken as-written from the toolkit's advertised surface."
+}

@@ -1,0 +1,15 @@
+{
+ "policy_id": "inv2_idempotency_v0",
+ "version": 0,
+ "family": "invoicing-money",
+ "compiled_by": "asa/LLM compile cycle v0 (doc-faithful)",
+ "source": "PayPal docs: retrying with the same PayPal-Request-Id is idempotent once a single request is retried (ledger item #12).",
+ "asserts": [
+  {
+   "kind": "idempotent_retries",
+   "effects": ["CREATE", "RECORD", "REFUND"],
+   "expect": "a retry with the same PayPal-Request-Id collapses to one object (same id / no second money effect)"
+  }
+ ],
+ "notes": "v0 taken as-written from the documented contract; the receipted sandbox decides."
+}

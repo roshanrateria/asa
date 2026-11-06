@@ -1,0 +1,33 @@
+{
+ "replayed_on": "2026-11-06",
+ "results": [
+  {
+   "finding": "R1 (SF-5)",
+   "label": "mis-keyed money field silently zeroed",
+   "verdict": "REPLAYED",
+   "detail": "created INV2-7H2B-NFTE-NR7L-8TG5, amount paths at 0.00: ['$.amount', '$.amount.breakdown.discount.invoice_discount.amount', '$.due_amount'] (all amount paths: [('$.amount', '0.00'), ('$.amount.breakdown.discount.invoice_discount.amount', '0.00'), ('$.due_amount', '0.00')])",
+   "replayed_on": "2026-11-06"
+  },
+  {
+   "finding": "R2 (SF-1x)",
+   "label": "invoicing ignores PayPal-Request-Id",
+   "verdict": "REPLAYED",
+   "detail": "same header -> 2 distinct invoices",
+   "replayed_on": "2026-11-06"
+  },
+  {
+   "finding": "R3 (SF-10)",
+   "label": "script payload artifact split (406-empty / 403-waf / stored)",
+   "verdict": "REPLAYED",
+   "detail": "status 406 artifact=empty-body",
+   "replayed_on": "2026-11-06"
+  },
+  {
+   "finding": "R4 (SF-9)",
+   "label": "MCP tool result masks app failure as success",
+   "verdict": "REPLAYED",
+   "detail": "ok_flag=True, text_carries_ok_false=True",
+   "replayed_on": "2026-11-06"
+  }
+ ]
+}

@@ -116,7 +116,8 @@ async def _mcp_session_phase(cfg, cells, ledger, rec, rc_rest, session) -> None:
 
                 ledger.finish_row(cell.cell_id, attempted=True, executed=True,
                                   statuses=[200 if ok_invoke else 499],
-                                  note=note, verdict=verdict)
+                                  note=note, verdict=verdict,
+                                  transport="mcp-stdio")
                 print(f"[{cell.cell_id:03d}] mcp {cell.abuse[:2]}-{cell.precondition[:3]} "
                       f"-> {'200' if ok_invoke else 'err'} {verdict} | {note[:80]}")
             except probe.RateLimitAbort:
@@ -125,7 +126,7 @@ async def _mcp_session_phase(cfg, cells, ledger, rec, rc_rest, session) -> None:
             except Exception as exc:  # cell-level failure recorded, phase continues
                 ledger.finish_row(cell.cell_id, attempted=True, executed=False,
                                   statuses=[], note=f"mcp-cell-error: {exc!r}"[:160],
-                                  verdict="OBSERVE")
+                                  verdict="OBSERVE", transport="mcp-stdio")
                 print(f"[{cell.cell_id:03d}] MCP-CELL-FAIL {exc!r}"[:120])
     finally:
         try:
@@ -141,21 +142,22 @@ def write_reports(ledger: probe.Ledger, tag: str = "pass1") -> None:
     out_dir.mkdir(exist_ok=True)
 
     rows_payload = []
-    for cid, r in sorted(ledger.rows.items()):
-        cell = r["cell"]
-        rows_payload.append({
-            "cell_id": cell.cell_id,
-            "abuse": cell.abuse,
-            "effect": cell.effect,
-            "precondition": cell.precondition,
-            "shape": cell.shape,
-            "transport": r["transport"],
-            "attempted": r["attempted"],
-            "executed": r["executed"],
-            "statuses": r["statuses"],
-            "verdict": r["verdict"],
-            "notes": r["notes"],
-        })
+    for cid, row_list in sorted(ledger.rows.items()):
+        for r in row_list:
+            cell = r["cell"]
+            rows_payload.append({
+                "cell_id": cell.cell_id,
+                "abuse": cell.abuse,
+                "effect": cell.effect,
+                "precondition": cell.precondition,
+                "shape": cell.shape,
+                "transport": r["transport"],
+                "attempted": r["attempted"],
+                "executed": r["executed"],
+                "statuses": r["statuses"],
+                "verdict": r["verdict"],
+                "notes": r["notes"],
+            })
 
     payload = {"counts": counts, "rows": rows_payload}
     (out_dir / f"coverage_{tag}.json").write_text(

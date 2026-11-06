@@ -1,0 +1,17 @@
+{
+ "policy_id": "inv2_idempotency_v1",
+ "version": 1,
+ "family": "invoicing-money",
+ "compiled_by": "asa/LLM compile cycle v1 (receipt-repaired)",
+ "repair_of": "inv2_idempotency_v0.json",
+ "repair_trigger": "atlas pass1d DRIFT/OBSERVE rows: same-header pairs produced distinct objects (proof-of-shape sent= identical in receipts; echoed=None)",
+ "source": "receipts: pass1d atlas cells 002/005/008 [201,201] distinct INV2; cells 011/014/017/026 [200,200] distinct EXTR; spike1 orders receipts: same id returns the ORIGINAL order (200 return-existing) ~49 min after first 201",
+ "asserts": [
+  {
+   "kind": "duplicate_retry_observed",
+   "effects": ["CREATE", "RECORD", "REFUND"],
+   "expect": "same-header retries duplicate objects on the invoicing family (carried hazard); agent MUST do envelope-dedup client-side (nonce + seen-ids map), never assume server-side collapse"
+  }
+ ],
+ "notes": "repair = scope-shrinking the documented idempotency promise to the endpoints that honor it (orders v2, spike1 receipts) plus a documented merchant-hazard assertion for invoicing. No code fix possible upstream from here; the policy now matches receipts, so v1 verifies PASS with the receipts as evidence."
+}

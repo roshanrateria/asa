@@ -1,0 +1,2626 @@
+{
+ "counts": {
+  "total_cells": 108,
+  "scheduled_rest": 51,
+  "executed_rest": 51,
+  "scheduled_mcp": 12,
+  "executed_mcp": 12,
+  "not_scheduled": {
+   "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)": 54,
+   "echo-refund: refund body has no text field on REST": 3,
+   "mcp-shape-merge: one aggregate retry per cluster": 6,
+   "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)": 33
+  },
+  "verdicts": {
+   "PASS": 29,
+   "DRIFT": 10,
+   "OBSERVE": 24
+  }
+ },
+ "rows": [
+  {
+   "cell_id": 1,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "single create [201]"
+   ]
+  },
+  {
+   "cell_id": 1,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-2Q4C-23F6-57GU-MQNG'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 2,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "same-header pair ids DIVERGED [201, 201] sent=['e3cbeb12', 'e3cbeb12'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 2,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 3,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "no-header pair ids duplicated (documented hazard) [201, 201] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 3,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 4,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "single create [201]"
+   ]
+  },
+  {
+   "cell_id": 4,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-4WZP-MYP2-H3KZ-R64Y'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 5,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "same-header pair ids DIVERGED [201, 201] sent=['1fef7018', '1fef7018'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 5,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 6,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "no-header pair ids duplicated (documented hazard) [201, 201] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 6,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 7,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "single create [201]"
+   ]
+  },
+  {
+   "cell_id": 7,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-74XE-G5AE-6ZS6-U6MF'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 8,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "same-header pair ids DIVERGED [201, 201] sent=['f05c8a66', 'f05c8a66'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 8,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 9,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "no-header pair ids duplicated (documented hazard) [201, 201] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 9,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 10,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 10,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 11,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=False ids=['EXTR-8R073423NB855212N', 'EXTR-73W80787HG252061F'] sent=['8429aa22', '8429aa22'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 11,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 12,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment no-header [200, 200] two_money_effects=True ids=['EXTR-0NC82277FY270405H', 'EXTR-99330764RG069000W'] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 12,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 13,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 13,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 14,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=False ids=['EXTR-4AB00345AN347672F', 'EXTR-1X845156M2210424U'] sent=['80a2d1fe', '80a2d1fe'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 14,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 15,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment no-header [200, 200] two_money_effects=True ids=['EXTR-8TF90178165376318', 'EXTR-8E1813564N217133L'] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 15,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 16,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "payment fresh [200]"
+   ]
+  },
+  {
+   "cell_id": 16,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 17,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment same-header [200, 200] ids_equal=False ids=['EXTR-9UK27900DH1040544', 'EXTR-1Y572143EC3233108'] sent=['88dd9f0b', '88dd9f0b'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 17,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 18,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "payment no-header [200, 200] two_money_effects=True ids=['EXTR-6ET88839R27430140', 'EXTR-5PC49170BY305693J'] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 18,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 19,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund fresh on unpaid [422] issue=CANNOT_PROCESS_REFUNDS (expect 4xx: unpaid wires have no refundable money)"
+   ]
+  },
+  {
+   "cell_id": 19,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 20,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund same-header [422, 422] ids_equal=True ids=['INV2-6WMV-8MJG-BUB3-SU79', 'INV2-6WMV-8MJG-BUB3-SU79'] sent=['4b35837a', '4b35837a'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 20,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 21,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund no-header [422, 422] distinct_refund_ids=1 ids=['INV2-HKYN-E54J-BJ5U-STLD', 'INV2-HKYN-E54J-BJ5U-STLD'] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 21,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 22,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund fresh on unpaid [422] issue=CANNOT_PROCESS_REFUNDS (expect 4xx: unpaid wires have no refundable money)"
+   ]
+  },
+  {
+   "cell_id": 22,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 23,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund same-header [422, 422] ids_equal=True ids=['INV2-KH5U-LEUH-PFX8-ZTUU', 'INV2-KH5U-LEUH-PFX8-ZTUU'] sent=['7682fa5d', '7682fa5d'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 23,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 24,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund no-header [422, 422] distinct_refund_ids=1 ids=['INV2-U6P5-BXJU-ERNL-96MX', 'INV2-U6P5-BXJU-ERNL-96MX'] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 24,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 25,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund fresh on paid [200]"
+   ]
+  },
+  {
+   "cell_id": 25,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 26,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund same-header [200, 200] ids_equal=False ids=['EXTR-1H295267XN648274U', 'EXTR-3S540392DD3965806'] sent=['17395fd3', '17395fd3'] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 26,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 27,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "refund no-header [200, 200] distinct_refund_ids=2 ids=['EXTR-9XF31922L5424403W', 'EXTR-0V054649FX730533F'] sent=[None, None] echoed=[None, None]"
+   ]
+  },
+  {
+   "cell_id": 27,
+   "abuse": "DUPLICATE_EFFECT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 28,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "forging observe [201]"
+   ]
+  },
+  {
+   "cell_id": 28,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-49LY-76C4-QC6G-JM42'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 29,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 30,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 31,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "forging observe [201]"
+   ]
+  },
+  {
+   "cell_id": 31,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-KCEB-FFSG-Q3RZ-FPL5'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 32,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 33,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 34,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "forging observe [201]"
+   ]
+  },
+  {
+   "cell_id": 34,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-M3TP-5FWN-BC4R-99A7'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 35,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 36,
+   "abuse": "STATE_FORGING",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 37,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "pay on DRAFT money=[200] (allowed-by-design)"
+   ]
+  },
+  {
+   "cell_id": 37,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 38,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 39,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 40,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "pay on AUTHORIZED_UNCAPTURED money=[200] (allowed-by-design)"
+   ]
+  },
+  {
+   "cell_id": 40,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 41,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 42,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 43,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "pay over remaining amount [422] issue=PAYMENT_AMOUNT_GREATER_THAN_AMOUNT_DUE"
+   ]
+  },
+  {
+   "cell_id": 43,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 44,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 45,
+   "abuse": "STATE_FORGING",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 46,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund on unpaid DRAFT invoice [422] issue=CANNOT_PROCESS_REFUNDS"
+   ]
+  },
+  {
+   "cell_id": 46,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 47,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 48,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 49,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund on unpaid AUTHORIZED_UNCAPTURED invoice [422] issue=CANNOT_PROCESS_REFUNDS"
+   ]
+  },
+  {
+   "cell_id": 49,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 50,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 51,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 52,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "refund within paid [200]"
+   ]
+  },
+  {
+   "cell_id": 52,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 53,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 54,
+   "abuse": "STATE_FORGING",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 55,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201,
+    201
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 55,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-HHRN-KPTG-BXUX-FH3L'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 56,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 57,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 58,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201,
+    201
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 58,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-H89K-56FV-MV5L-2NHS'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 59,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 60,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 61,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201,
+    201,
+    201
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 61,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "mcp create ids=['INV2-UNVB-H2RC-4MG7-NNVY'] ok=True"
+   ]
+  },
+  {
+   "cell_id": 62,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 63,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 64,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 64,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 65,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 66,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 67,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 67,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 68,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 69,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 70,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    200
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-x"
+   ]
+  },
+  {
+   "cell_id": 70,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 71,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 72,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 73,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile 422-422-422"
+   ]
+  },
+  {
+   "cell_id": 73,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 74,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 75,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 76,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    422,
+    422,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile 422-422-422"
+   ]
+  },
+  {
+   "cell_id": 76,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 77,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 78,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 79,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200,
+    200,
+    422
+   ],
+   "verdict": "OBSERVE",
+   "notes": [
+    "cumulative boundary profile x-x-422"
+   ]
+  },
+  {
+   "cell_id": 79,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 80,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 81,
+   "abuse": "CUMULATIVE_OVERLIMIT",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 82,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    403
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "echo-in-create [403] echo=no-invoice-id"
+   ]
+  },
+  {
+   "cell_id": 82,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}) [406 underneath]"
+   ]
+  },
+  {
+   "cell_id": 83,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 84,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 85,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    201
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "echo-in-create [201] echo=reflected-verbatim"
+   ]
+  },
+  {
+   "cell_id": 85,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "mcp create ids=['INV2-3EU4-CZMG-ZY7J-SND4'] ok=True echo=reflected-verbatim"
+   ]
+  },
+  {
+   "cell_id": 86,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 87,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 88,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    403
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "echo-in-create [403] echo=no-invoice-id"
+   ]
+  },
+  {
+   "cell_id": 88,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "mcp-stdio",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "mcp MASKED-FAILURE: isError=false but text ok:false (texts sample: {\"ok\":false,\"status\":406,\"code\":\"PAYPAL_API_HTTP_ERROR\",\"message\":\"Unknown error\"}) [406 underneath]"
+   ]
+  },
+  {
+   "cell_id": 89,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 90,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "CREATE",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-shape-merge: one aggregate retry per cluster"
+   ]
+  },
+  {
+   "cell_id": 91,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "echo-in-payment-note [200]"
+   ]
+  },
+  {
+   "cell_id": 91,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 92,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 93,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 94,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    403
+   ],
+   "verdict": "DRIFT",
+   "notes": [
+    "echo-in-payment-note [403]"
+   ]
+  },
+  {
+   "cell_id": 94,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 95,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 96,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 97,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": "rest",
+   "attempted": true,
+   "executed": true,
+   "statuses": [
+    200
+   ],
+   "verdict": "PASS",
+   "notes": [
+    "echo-in-payment-note [200]"
+   ]
+  },
+  {
+   "cell_id": 97,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 98,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 99,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "RECORD",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 100,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "echo-refund: refund body has no text field on REST",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 101,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 102,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "DRAFT",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 103,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "echo-refund: refund body has no text field on REST",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 104,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 105,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "AUTHORIZED_UNCAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 106,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "FRESH",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "echo-refund: refund body has no text field on REST",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 107,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_SAME_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  },
+  {
+   "cell_id": 108,
+   "abuse": "UNTRUSTED_ECHO",
+   "effect": "REFUND",
+   "precondition": "CAPTURED",
+   "shape": "RETRY_NO_REQUEST_ID",
+   "transport": null,
+   "attempted": false,
+   "executed": false,
+   "statuses": [],
+   "verdict": "not-scheduled",
+   "notes": [
+    "single-shape-pass-v0 (non-DUPLICATE abuse, FRESH only)",
+    "mcp-tool-absent: SF-8 (record/refund not exposed by MCP)"
+   ]
+  }
+ ]
+}
