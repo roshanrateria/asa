@@ -1,0 +1,20 @@
+{
+ "checked_at": "2026-11-06T13:12:08+00:00",
+ "mcp_package": "@paypal/mcp",
+ "variants": {
+  "M-A_no_items": {
+   "isError": false,
+   "result_text": "MCP error -32602: Input validation error: Invalid arguments for tool create_invoice: Required at items",
+   "accepted": false,
+   "invoice_id": null
+  },
+  "M-B_line_items": {
+   "isError": false,
+   "result_text": "MCP error -32602: Input validation error: Invalid arguments for tool create_invoice: Required at items",
+   "accepted": false,
+   "invoice_id": null
+  }
+ },
+ "verdict": "MCP_ENFORCES_ITEMS (schema boundary rejects items-less/mis-keyed bodies: MCP error -32602 'Required at items') - SF-5 ($0 invoice) is REST-only; AND the boundary rejection rides isError=false with the -32602 error only in text - the masking pattern recurs at the schema class (SF-9, second independent instance)",
+ "interpretation": "the MCP tool boundary blocks the agents' mis-key path (schema); the rejection's transport (isError=false + text) matches the masked-failure pattern receipted at API class"
+}

@@ -39,8 +39,23 @@ def _rows(canon: str) -> list[dict]:
 
 
 def _mcp_tool_names() -> list[str]:
-    snap = json.loads((RUNS / "mcp_tools_snapshot_stdio.json").read_text(encoding="utf-8"))
-    return [t["name"] for t in snap["tools"]]
+    """Tool names from the best available surface snapshot.
+
+    Local canon: runs/mcp_tools_snapshot_stdio.json (git-ignored).
+    Judge clones have no runs/ - fall back to the COMMITTED sanitized subset
+    (atlas/sample_receipts/mcp_tools_list_pinned_1.8.1.json carries the same
+    names, pinned provenance). (Clean-clone test found this gap.)
+    """
+    for path in (RUNS / "mcp_tools_snapshot_stdio.json",
+                 ATLAS / "sample_receipts" / "mcp_tools_list_pinned_1.8.1.json"):
+        if path.exists():
+            snap = json.loads(path.read_text(encoding="utf-8"))
+            names = snap.get("tools") or []
+            if names and isinstance(names[0], dict):        # full snapshot rows
+                return [t["name"] for t in names]
+            return list(names)                              # committed name list
+    raise FileNotFoundError(
+        "no tool-surface artifact found (runs/ or atlas/sample_receipts)")
 
 
 # ---------------------------------------------------------------------------

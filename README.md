@@ -45,11 +45,10 @@ adding SF-9 (MCP masks application failure as success) and SF-10
   decides every PASS/FAIL against receipts - the LLM never decides,
 * **measured agent result** (`atlas/agent_probe.json`, rerunnable via
   `scripts/agent_probe.py`): the exact masked-failure tool text from the
-  canonical receipts, 3 models x 2 framings - all 6 probes caught the
-  `ok:false` failure in the text (GLM-5.3 Flash Free, Qwen3.8-27B,
-  nvidia/nemotron-3-ultra-550b-a55b); the residual hazard is client-shaped
-  (MCP clients that forward only the structured flag). n=1 per leg: a
-  spot-check, not a benchmark.
+  canonical receipts, multiple models x 2 framings, sampled with counts +
+  Wilson intervals - agents shown the text caught it in every measured trial;
+  what is NOT demonstrated is the true exposure path (an MCP client that
+  forwards only the structured flag - hypothesis, labeled as such).
 
 ## Architecture (blueprint E5)
 

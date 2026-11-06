@@ -141,8 +141,9 @@ Canon pass <b>{html.escape(canon_p)}</b>{f" (aux {html.escape(aux_p)})" if aux_p
                          f"<td>{_fmt_error(c['overall'])}</td><td>{per}</td></tr>")
         parts.append("</table>")
         parts.append("<div class='sub'>The v0 policies are doc-faithful and FAIL with receipted"
-                     " counterexamples; the v1 repairs are scope-shrunk to receipted behavior."
-                     " That fail &rarr; repair cycle is the audit's core loop.</div>")
+                     " counterexamples; the v1 rewrites are declared known-hazard documentation"
+                     " (receipted scope + merchant-side mitigation; they document carried hazards,"
+                     " they do not remove them). That fail &rarr; document cycle is the audit's core loop.</div>")
     else:
         parts.append("<div class='sub'>policy_check.json missing - run scripts/policy_check.py"
                      " before building the report.</div>")
@@ -174,14 +175,13 @@ and repair diffs at <code>docs/llm_transcripts.md</code>.</li>
 deterministic checker <code>asa/policy.py</code> against receipts - the LLM never
 decides (and v1 is <i>known-hazard documentation</i>, not a repair that removes
 any hazard: see <code>policy_status</code> in each v1 file).</li>
-<li><b>Measured agent result (<code>atlas/agent_probe.json</code>):</b> with the exact
-masked-failure tool text from canonical receipts (pass1d2 seq 189/196), 3 models
-&times; 2 framings - GLM-5.3 Flash Free, Qwen3.8-27B (groq),
-nvidia/nemotron-3-ultra-550b-a55b (key-per-rerun reproducible) - all 6 probes
-<b>caught</b> the ok:false inside the text (f1 FAILURE 3/3, f2 STOP 3/3).
-Reading: conversational agents that SEE the text are not fooled; the residual
-hazard is client-shaped - any MCP client that forwards only the structured
-<code>isError</code> flag propagates the mask. SF-9 stands as a protocol finding.</li>
+<li><b>Measured agent result (<code>atlas/agent_probe.json</code>):</b> reading-comprehension
+probes with the exact masked-failure tool text from canonical receipts
+(pass1d2 seq 189/196): multiple models &times; 2 framings, n per cell stated
+with Wilson intervals. In every measured trial agents that SEE the text catch
+the ok:false; the untested exposure is the SF-9 mechanism itself - a client
+that forwards only the structured <code>isError</code> flag - which stays a
+labeled hypothesis, not a result.</li>
 </ul></div>""")
     if agents:
         rows = "".join(

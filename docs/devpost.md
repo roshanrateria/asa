@@ -29,8 +29,10 @@ explicitly documented - receipts arbitrate, not vibes.
   narrowed to receipted truth with the merchant-side mitigation written out
   (the fail -> hazard-documentation cycle is the demo);
 * attaches AI to the headline masking finding and MEASURES it: same masked
-  tool text, 3 models x 2 framings, all 6 probes caught the failure
-  (GLM / Qwen / Nemotron) - the residual hazard is client-shaped;
+  tool text, multiple models x 2 framings with n counts and Wilson intervals -
+  in the measured probes the agents that SEE the text catch it; the exposure
+  NOT yet demonstrated is a client that forwards only the structured flag
+  (stated as hypothesis, not result);
 * replays the headline findings live (`scripts/replay_findings.py`) so judges
   see today's sandbox, not Day-one claims;
 * renders ONE offline static report (`report/index.html`) built only from
@@ -41,19 +43,24 @@ explicitly documented - receipts arbitrate, not vibes.
 * SF-1: idempotency is asymmetric - orders v2 honors PayPal-Request-Id
   (return-existing ~49 min later); the invoicing create/payments/refunds
   endpoints ignore it, so same-header retries duplicate money objects.
-* SF-5 (the headline): create_invoice silently accepts the WRONG field key
-  (`line_items`), returns 201 with a completely valid-looking object whose
-  amount/due are 0.00 - a $20 invoice stored as a $0 object with no error
-  anywhere; refunds then 422 with a message contradicting the object's own
-  state.
+* SF-5 (the headline, REST-family): create_invoice silently accepts the WRONG
+  field key (`line_items`), returns 201 with a completely valid-looking object
+  whose amount/due are 0.00 - a $20 invoice stored as a $0 object with no
+  error anywhere; refunds then 422 with a message contradicting the object's
+  own state. Scope receipted: the MCP tool's schema ENFORCES `items`
+  (`-32602 Required at items`), so agents on MCP cannot mis-key their way to
+  a $0 invoice - the hazard is REST-only.
 * SF-8: the official MCP server cannot record invoices payments/refunds - the
   toolkit advertises the tools, the server does not expose them.
 * SF-9: MCP reports `isError=false` while its result TEXT carries the
   application-level failure (`{"ok":false,"status":406}`). Measured with AI
-  attached: three models (GLM-5.3 Flash Free, Qwen3.8-27B,
-  nvidia/nemotron-3-ultra-550b-a55b) x two framings ALL caught the failure
-  (6/6, n=1 each - `atlas/agent_probe.json`); the hazard bites where no one
-  sees the text - in MCP clients that forward only the structured flag.
+  attached: reading-comprehension probes - multiple models x 2 framings, n
+  stated with Wilson intervals - the agents SHOWN the text catch it in every
+  measured trial; the exposure NOT demonstrated (labeled hypothesis, not
+  result) is a client that forwards only the structured flag. Second
+  independent instance receipted: a create_invoice schema rejection
+  (`-32602 Required at items`) also rides `isError=false` with the error
+  only in text (`atlas/miskey_mcp_check.json`).
 * SF-10: identical hostile `<script>` text is rejected with THREE different
   artifacts (406+empty body / 403+WAF HTML page / masked-406-in-text), while
   prompt-injection text passes everywhere and is stored verbatim.
