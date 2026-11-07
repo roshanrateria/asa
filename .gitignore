@@ -16,6 +16,10 @@ node_modules/
 # MCP remote OAuth cache
 .mcp-auth/
 
+# presentation: local video-demo assets ONLY (renderer output, React deck build,
+# narration masters live here) - deliberately NOT on GitHub
+presentation/
+
 # OS
 .DS_Store
 Thumbs.db
