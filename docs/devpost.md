@@ -1,4 +1,11 @@
-# Devpost submission text (review-vetted draft, freeze 2026-11-10)
+# Devpost submission text (final, submitted 2026-11-07)
+
+## Video (Public): https://youtu.be/7UrfTnq3IPw
+
+Uploaded as the deterministic 74 s render (`presentation/out/demo.mp4`):
+every scene paints the committed receipt artifacts; the two slide-card
+scenes carry the method and policy-chain stories. Captions master:
+`presentation/narration/demo.srt`.
 
 ## Title
 

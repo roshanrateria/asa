@@ -8,7 +8,8 @@ confronts with the receipts.
 Built for the PayPal AI Hackathon ("Build What's Next with PayPal and AI",
 deadline Thu 12 Nov 2026, 12:00 PST). Sandbox only, by construction.
 
-**Judge entry points:** the one-file audit is `report/index.html`
+**Judge entry points:** the 74-second demo video → <https://youtu.be/7UrfTnq3IPw> ·
+the one-file audit is `report/index.html`
 (offline, renders only what receipts prove); committed sanitized evidence
 lives in `atlas/sample_receipts/`; AI usage is named and bounded in
 `docs/llm_transcripts.md`; the submission text draft is `docs/devpost.md`.
@@ -165,7 +166,8 @@ env-var NAME in `.env.example`.
 
 * newly created work, sandbox only,
 * public repo + MIT licence at repo top, run instructions for judges,
-* video < 3 min on YouTube, no third-party music/trademarks,
+* demo video on YouTube (74 s, Public): <https://youtu.be/7UrfTnq3IPw> -
+  no third-party music/trademarks,
 * targets lanes: Best Use of PayPal + AI, Best Demo Delivery.
 
 ## Licence
